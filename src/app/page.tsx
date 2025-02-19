@@ -1,87 +1,58 @@
-"use client";
+import Link from "next/link";
 
-import { useEffect, useState } from "react";
-import { db } from "./lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { useRouter } from "next/navigation"; // Import router
-
-// Define Listing Interface
-interface Listing {
-  id: string;
-  title: string;
-  location: string;
-  price: number;
-  imageUrl?: string;
-}
-
-export default function HomePage() {
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter(); // Initialize Next.js router
-
-  // Fetch Listings from Firestore
-  useEffect(() => {
-    const fetchListings = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const querySnapshot = await getDocs(collection(db, "listings"));
-        const data = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Listing[];
-
-        setListings(data);
-      } catch (err) {
-        console.error("Error fetching listings:", err);
-        setError("Failed to load listings. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchListings();
-  }, []);
-
+export default function Home() {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-extrabold text-gray-900 mb-6 text-center">
-        Find Your Perfect Rental
-      </h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-900">
+      {/* Hero Section */}
+      <section className="text-center py-16 px-4">
+        <h1 className="text-4xl font-extrabold">Welcome to Arunachal Rents</h1>
+        <p className="text-lg text-gray-600 mt-3">Find the best rooms for rent with ease.</p>
+        <Link href="/listings">
+          <button className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg rounded-lg shadow-md hover:bg-blue-700 transition">
+            View Listings
+          </button>
+        </Link>
+      </section>
 
-      {loading && <p className="text-center text-gray-500 animate-pulse">Fetching available rooms...</p>}
-      {error && <p className="text-center text-red-500 bg-red-100 p-3 rounded-md">{error}</p>}
-
-      {!loading && listings.length === 0 && (
-        <p className="text-center text-gray-600">No rooms available at the moment.</p>
-      )}
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {listings.map((listing) => (
-          <div key={listing.id} className="bg-white rounded-lg shadow-md overflow-hidden transform transition hover:scale-105">
-            {listing.imageUrl ? (
-              <img src={listing.imageUrl} alt={listing.title} className="w-full h-40 object-cover" />
-            ) : (
-              <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
-            )}
-            <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800">{listing.title}</h2>
-              <p className="text-gray-600">{listing.location}</p>
-              <p className="text-lg font-bold text-blue-600">₹{listing.price}/month</p>
-              
-              {/* View Details Button */}
-              <button
-                onClick={() => router.push(`/room/${listing.id}`)} 
-                className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full transition"
-              >
-                View Details
-              </button>
-            </div>
+      {/* Features Section */}
+      <section className="max-w-4xl mx-auto my-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        {[
+          { title: "Verified Listings", desc: "All properties are verified for authenticity." },
+          { title: "Affordable Prices", desc: "Find budget-friendly rental options." },
+          { title: "Easy Booking", desc: "Hassle-free booking and instant confirmation." },
+        ].map((feature, index) => (
+          <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">{feature.title}</h3>
+            <p className="text-gray-600 mt-2">{feature.desc}</p>
           </div>
         ))}
-      </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="bg-white w-full py-12 text-center">
+        <h2 className="text-2xl font-semibold">What Our Users Say</h2>
+        <div className="max-w-3xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            { name: "Rohan", review: "Great platform! Found my rental easily." },
+            { name: "Priya", review: "Smooth booking experience, highly recommend!" },
+          ].map((testimonial, index) => (
+            <div key={index} className="p-4 bg-gray-100 rounded-lg shadow-sm">
+              <p className="text-gray-700 italic">"{testimonial.review}"</p>
+              <h4 className="mt-2 font-semibold">{testimonial.name}</h4>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="text-center py-12">
+        <h2 className="text-2xl font-semibold">Ready to find your next home?</h2>
+        <Link href="/listings">
+          <button className="mt-4 px-6 py-3 bg-green-600 text-white text-lg rounded-lg shadow-md hover:bg-green-700 transition">
+            Browse Listings
+          </button>
+        </Link>
+      </section>
     </div>
   );
 }

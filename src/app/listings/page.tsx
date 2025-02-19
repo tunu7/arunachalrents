@@ -1,87 +1,110 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { db } from "../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../lib/firebaseClient";
+import { collection, getDocs } from "firebase/firestore";
+import { useRouter } from "next/navigation"; // Import router
 
-export default function addListing() {
-  const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
-  const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [isClient, setIsClient] = useState(false);
+// Define Listing Interface
+interface Listing {
+  id: string;
+  title: string;
+  location: string;
+  price: number;
+  imageUrl?: string;
+  roomType: string;
+  amenities: string[];
+}
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+export default function ListingPage() {
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter(); // Initialize Next.js router
 
-  if (!isClient) return <p>Loading...</p>; // Fix hydration error
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!title || !location || !price) {
-      alert("All fields except image are required!");
-      return;
-    }
+  // Fetch Listings from Firestore
+  const fetchListings = async () => {
+    setLoading(true);
+    setError(null);
 
     try {
-      await addDoc(collection(db, "listings"), { 
-        title, 
-        location, 
-        price: Number(price),
-        imageUrl: imageUrl || null
-      });
-      alert("Listing added!");
-      setTitle("");
-      setLocation("");
-      setPrice("");
-      setImageUrl("");
-    } catch (error) {
-      console.error("Error adding listing:", error);
-      alert("Failed to add listing");
+      const querySnapshot = await getDocs(collection(db, "listings"));
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Listing[];
+
+      setListings(data);
+    } catch (err) {
+      console.error("Error fetching listings:", err);
+      setError("Failed to load listings. Please check your internet connection and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Add New Rental</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input 
-          type="text" 
-          placeholder="Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          className="border p-2 w-full rounded" 
-        />
-        <input 
-          type="text" 
-          placeholder="Location" 
-          value={location} 
-          onChange={(e) => setLocation(e.target.value)} 
-          className="border p-2 w-full rounded" 
-        />
-        <input 
-          type="number" 
-          placeholder="Price (₹/month)" 
-          value={price} 
-          onChange={(e) => setPrice(e.target.value)} 
-          className="border p-2 w-full rounded" 
-        />
-        <input 
-          type="text" 
-          placeholder="Image URL (Optional)" 
-          value={imageUrl} 
-          onChange={(e) => setImageUrl(e.target.value)} 
-          className="border p-2 w-full rounded" 
-        />
-        <button 
-          type="submit" 
-          className="bg-purple-600 text-white p-2 w-full rounded hover:bg-purple-700"
-        >
-          Add Listing
-        </button>
-      </form>
+    <div className="max-w-5xl mx-auto px-4 py-6">
+      <h1 className="text-lg font-extrabold text-gray-900 mb-4 text-center">
+        Find Your Perfect Rental
+      </h1>
+
+      {/* Error Message with Retry */}
+      {error && (
+        <div className="text-center bg-red-100 text-red-700 p-3 rounded-md mb-4">
+          <p>{error}</p>
+          <button
+            onClick={fetchListings}
+            className="mt-2 bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700 transition"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading && <p className="text-center text-gray-500 animate-pulse">Fetching available rooms...</p>}
+
+      {/* No Listings Found */}
+      {!loading && listings.length === 0 && (
+        <p className="text-center text-gray-600">No rooms available at the moment.</p>
+      )}
+
+      {/* Listings Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {listings.map((listing) => (
+          <div key={listing.id} className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105">
+            {/* Room Image */}
+            {listing.imageUrl ? (
+              <img src={listing.imageUrl} alt={listing.title} className="w-full h-40 object-cover" />
+            ) : (
+              <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+                No Image
+              </div>
+            )}
+
+            {/* Room Details */}
+            <div className="p-4">
+              <h2 className="text-sm font-bold text-gray-900 uppercase">{listing.roomType}</h2>
+
+              <p className="text-xs text-gray-600 flex items-center gap-1"> {listing.location}</p>
+
+              <p className="text-lg font-bold text-blue-600 mt-1">₹{listing.price}/month</p>
+
+              <button
+                onClick={() => router.push(`/listings/room/${listing.id}`)}
+                className="mt-3 bg-blue-600 text-white text-xs px-4 py-2 rounded-lg hover:bg-blue-700 w-full transition-shadow shadow-md"
+              >
+                View Details
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
