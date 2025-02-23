@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, PlusCircle } from "lucide-react";
 import Sidebar from "./Sidebar";
 
 export default function Navbar() {
@@ -26,8 +26,10 @@ export default function Navbar() {
           ArunachalRent
         </Link>
 
-        {/* Right-Side Placeholder (Can Add More Features Later) */}
-        <div className="w-8"></div>
+        {/* Add Room Button */}
+        <Link href="/add-room" aria-label="Add Room">
+          <PlusCircle size={28} className="text-gray-700 hover:text-green-600 transition" />
+        </Link>
       </nav>
 
       {/* Sidebar Component */}

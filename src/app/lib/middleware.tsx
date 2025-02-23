@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { admin } from "./lib/firebaseAdmin"; // Adjust the import path
+import { authAdmin } from "../lib/firebaseAdmin"; // ✅ Adjusted Import Path
 
 async function verifyToken(token: string | undefined) {
   if (!token) {
@@ -9,9 +9,14 @@ async function verifyToken(token: string | undefined) {
   }
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
+    const decodedToken = await authAdmin.verifyIdToken(token);
+
+    // Fetch custom claims (if set in Firebase)
+    const userRecord = await authAdmin.getUser(decodedToken.uid);
+    const userRole = userRecord.customClaims?.role || "tenant"; // Default to "tenant" if no role set
+
     console.log("✅ Token Verified:", decodedToken);
-    return decodedToken;
+    return { ...decodedToken, role: userRole };
   } catch (error) {
     console.error("❌ Token verification failed:", error);
     return null;
@@ -23,7 +28,7 @@ export async function middleware(req: NextRequest) {
   console.log(`🔎 Middleware Running - Path: ${pathname}`);
 
   // 1️⃣ Ensure token is present
-  const token = req.cookies?.get("token")?.value;
+  const token = req.cookies.get("token")?.value;
 
   if (!token) {
     console.warn(`🔑 No token found - Redirecting to /login`);
@@ -37,7 +42,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  const userRole = verifiedUser.role || verifiedUser.claims?.role;
+  const userRole = verifiedUser.role;
   console.log(`👤 User Role: ${userRole}`);
 
   // 3️⃣ Redirect based on role

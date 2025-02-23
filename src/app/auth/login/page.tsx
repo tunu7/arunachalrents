@@ -1,53 +1,46 @@
-// app/login/page.tsx
 "use client";
-
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebaseClient";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // After login, you might want to set a secure cookie with the user's token.
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError("Invalid email or password");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        {error && <p className="text-red-500">{error}</p>}
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h2 className="text-xl font-bold">Login</h2>
+      <form onSubmit={handleLogin} className="flex flex-col gap-3">
         <input
           type="email"
           placeholder="Email"
-          className="border p-2 w-full mb-4"
+          className="border p-2"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
         <input
           type="password"
           placeholder="Password"
-          className="border p-2 w-full mb-4"
+          className="border p-2"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-          Sign In
-        </button>
+        <button type="submit" className="bg-blue-500 text-white p-2">Login</button>
       </form>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }

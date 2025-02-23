@@ -1,69 +1,58 @@
-// app/register/page.tsx
 "use client";
-
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../../lib/firebaseClient";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [role, setRole] = useState("tenant"); // Default role
+  const router = useRouter();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Update display name
-      await updateProfile(userCredential.user, { displayName });
-      // Save default role in Firestore (e.g., "user")
-      await setDoc(doc(db, "users", userCredential.user.uid), {
-        displayName,
-        role: "user",
-        email,
-      });
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), { email, role });
+
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleRegister} className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-        {error && <p className="text-red-500">{error}</p>}
-        <input
-          type="text"
-          placeholder="Display Name"
-          className="border p-2 w-full mb-4"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          required
-        />
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h2 className="text-xl font-bold">Register</h2>
+      <form onSubmit={handleRegister} className="flex flex-col gap-3">
         <input
           type="email"
           placeholder="Email"
-          className="border p-2 w-full mb-4"
+          className="border p-2"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
         <input
           type="password"
           placeholder="Password"
-          className="border p-2 w-full mb-4"
+          className="border p-2"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
-        <button type="submit" className="w-full bg-green-500 text-white p-2 rounded">
-          Register
-        </button>
+        <select
+          className="border p-2"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="admin">Admin</option>
+          <option value="vendor">Vendor</option>
+          <option value="tenant">Tenant</option>
+        </select>
+        <button type="submit" className="bg-green-500 text-white p-2">Register</button>
       </form>
     </div>
   );
