@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../lib/firebaseClient";
+import { auth } from "../../../lib/firebaseClient";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -15,7 +15,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
-    } catch (err) {
+    } catch (_err) {
       setError("Invalid email or password");
     }
   };
