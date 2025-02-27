@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { auth } from "../lib/firebaseClient";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 export default function Sidebar({ isOpen, closeSidebar }: { isOpen: boolean; closeSidebar: () => void }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null); // Fixed the 'any' type
   const [role, setRole] = useState<string | null>(null); // Store user role
   const router = useRouter();
   const db = getFirestore();
@@ -33,7 +33,7 @@ export default function Sidebar({ isOpen, closeSidebar }: { isOpen: boolean; clo
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [db]); // Added db as a dependency
 
   const handleLogout = async () => {
     await signOut(auth);

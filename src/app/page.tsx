@@ -74,7 +74,7 @@ export default function Home() {
                   className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition"
                 >
                   <p className="text-gray-700 italic">
-                    "{testimonial.review}"
+                    &ldquo;{testimonial.review}&rdquo;
                   </p>
                   <h4 className="mt-4 font-semibold text-gray-800">
                     {testimonial.name}

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { db, auth } from "../../../../lib/firebaseClient";
 import { doc, getDoc, collection, addDoc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
+import Image from "next/image"; // Import Next.js Image component
 
 // Define Listing Interface
 interface Listing {
@@ -25,7 +26,7 @@ export default function RoomDetail() {
   const router = useRouter();
   const id = params?.id as string;
 
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null); // Fixed the 'any' type
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -105,11 +106,18 @@ export default function RoomDetail() {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-8 bg-white shadow-lg rounded-lg">
-      {/* Photos Section */}
+      {/* Photos Section - Using Next.js Image component */}
       {listing?.photos && listing.photos.length > 0 && (
         <div className="grid grid-cols-2 gap-4 mb-6">
           {listing.photos.map((photo, index) => (
-            <img key={index} src={photo} alt={`Room photo ${index + 1}`} className="w-full h-40 object-cover rounded-lg" />
+            <div key={index} className="relative w-full h-40">
+              <Image 
+                src={photo} 
+                alt={`Room photo ${index + 1}`} 
+                fill
+                className="object-cover rounded-lg"
+              />
+            </div>
           ))}
         </div>
       )}

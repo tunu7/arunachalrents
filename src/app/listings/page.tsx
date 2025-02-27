@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { db } from "../../lib/firebaseClient";
 import { collection, getDocs } from "firebase/firestore";
-import { useRouter } from "next/navigation"; // Import router
+import { useRouter } from "next/navigation";
+import Image from "next/image"; // Import Next.js Image component
 
 // Define Listing Interface
 interface Listing {
@@ -20,7 +21,7 @@ export default function ListingPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter(); // Initialize Next.js router
+  const router = useRouter();
 
   // Fetch Listings from Firestore
   const fetchListings = async () => {
@@ -78,9 +79,16 @@ export default function ListingPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {listings.map((listing) => (
           <div key={listing.id} className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105">
-            {/* Room Image */}
+            {/* Room Image - Using Next.js Image component */}
             {listing.imageUrl ? (
-              <img src={listing.imageUrl} alt={listing.title} className="w-full h-40 object-cover" />
+              <div className="relative w-full h-40">
+                <Image 
+                  src={listing.imageUrl}
+                  alt={listing.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
                 No Image

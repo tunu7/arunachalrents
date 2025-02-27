@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { auth } from "../lib/firebaseClient";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { Home, Search, User } from "lucide-react";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import { Home, Search, User as UserIcon } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
-  const [user, setUser] = useState<null | any>(null);
+  const [user, setUser] = useState<User | null>(null); // Fixed the 'any' type
   const [showProfile, setShowProfile] = useState(false);
   const [showSearchFilters, setShowSearchFilters] = useState(false);
   const [searchFilters, setSearchFilters] = useState({
@@ -71,11 +72,11 @@ export default function Footer() {
         </button>
         {user ? (
           <button onClick={toggleProfile} className="p-2 rounded-lg hover:bg-gray-200 transition">
-            <User size={20} strokeWidth={1.5} className="text-black" />
+            <UserIcon size={20} strokeWidth={1.5} className="text-black" />
           </button>
         ) : (
           <Link href="/auth/login" className="p-2 rounded-lg hover:bg-gray-200 transition">
-            <User size={20} strokeWidth={1.5} className="text-black" />
+            <UserIcon size={20} strokeWidth={1.5} className="text-black" />
           </Link>
         )}
       </footer>
@@ -85,14 +86,17 @@ export default function Footer() {
         <div className="fixed bottom-20 right-4 z-50 w-80 bg-white shadow-lg p-6 rounded-lg border border-gray-200">
           <div className="flex items-center space-x-4">
             {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                alt="Profile Picture"
-                className="w-16 h-16 rounded-full object-cover"
-              />
+              <div className="relative w-16 h-16">
+                <Image
+                  src={user.photoURL}
+                  alt="Profile Picture"
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
             ) : (
               <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-gray-600">
-                <User size={24} strokeWidth={1.5} />
+                <UserIcon size={24} strokeWidth={1.5} />
               </div>
             )}
             <div>
