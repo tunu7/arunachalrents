@@ -23,7 +23,7 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="text-2xl font-semibold text-gray-800 hover:text-gray-600 transition">
-          ArunachalRent
+          ArunachalRents
         </Link>
 
         {/* Add Room Button */}
