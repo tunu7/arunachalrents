@@ -71,7 +71,7 @@ export default function Home() {
               { name: "Riba", review: "A truly professional experience with seamless booking and support." },
             ].map((testimonial, index) => (
               <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition">
-                <p className="text-gray-700 italic">"&ldquo;{testimonial.review}&rdquo;"</p>
+               <p className="text-gray-700 italic">&ldquo;{testimonial.review}&rdquo;</p>
                 <h4 className="mt-4 font-semibold">{testimonial.name}</h4>
               </div>
             ))}
