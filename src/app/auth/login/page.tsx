@@ -1,5 +1,5 @@
+// Login Page
 "use client";
-
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../lib/firebaseClient";
@@ -17,32 +17,51 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch {
-      // No parameter in the catch block at all
       setError("Invalid email or password");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h2 className="text-xl font-bold">Login</h2>
-      <form onSubmit={handleLogin} className="flex flex-col gap-3">
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2">Login</button>
-      </form>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-sm">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <input
+              type="email"
+              placeholder="Email Address"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Sign In
+          </button>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        </form>
+        <p className="text-center mt-6 text-gray-600">
+          Don't have an account?{" "}
+          <button
+            onClick={() => router.push("/auth/register")}
+            className="text-blue-600 hover:underline focus:outline-none"
+          >
+            Create Account
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
