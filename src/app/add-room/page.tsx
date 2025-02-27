@@ -8,7 +8,7 @@ export default function AddRoom() {
   const [formData, setFormData] = useState({
     title: "",
     location: "",
-    price: "", // Initially a string
+    price: "",
     roomType: "",
     image: "",
   });
@@ -17,7 +17,7 @@ export default function AddRoom() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? Number(value) : value, // Convert price to number
+      [name]: name === "price" ? Number(value) : value,
     }));
   };
 
@@ -30,20 +30,18 @@ export default function AddRoom() {
     }
 
     try {
-      // Firestore: Add room data
       await addDoc(collection(db, "listings"), {
         title: formData.title,
         location: formData.location,
-        price: formData.price, // Ensure it's a number
+        price: formData.price,
         roomType: formData.roomType,
-        image: formData.image || "", // Avoid undefined values
+        image: formData.image || "",
         createdAt: new Date(),
       });
 
       console.log("Room added:", formData);
-      alert("Room added successfully!");
+      alert("Your listing is live!");
 
-      // Reset form
       setFormData({
         title: "",
         location: "",
@@ -53,18 +51,22 @@ export default function AddRoom() {
       });
     } catch (error) {
       console.error("Error adding room:", error);
-      alert("Error adding room. Please try again.");
+      alert("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className="max-w-xl mx-auto mt-2 mb-10 p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-semibold mb-5">Add a Room</h2>
+      <h2 className="text-2xl font-semibold mb-2 text-gray-900">List Your Property</h2>
+      <p className="text-sm text-gray-600 mb-5">
+        A few simple details and your rental is ready for tenants.
+      </p>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           name="title"
-          placeholder="Room Title"
+          placeholder="Title"
           value={formData.title}
           onChange={handleChange}
           className="border p-3 rounded"
@@ -82,7 +84,7 @@ export default function AddRoom() {
         <input
           type="number"
           name="price"
-          placeholder="Price per Month"
+          placeholder="Price per Month (₹)"
           value={formData.price}
           onChange={handleChange}
           className="border p-3 rounded"
@@ -114,7 +116,7 @@ export default function AddRoom() {
           type="submit"
           className="bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
         >
-          Submit
+          Publish Listing
         </button>
       </form>
     </div>
