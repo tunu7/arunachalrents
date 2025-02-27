@@ -19,19 +19,19 @@ export default function Footer() {
   return (
     <footer className="fixed bottom-0 w-full bg-white shadow-md p-1 flex justify-around items-center border-t">
       <Link href="/" className="p-3 rounded-lg hover:bg-gray-200 transition">
-        <Home size={24} strokeWidth={3} className="text-gray-900" />
+        <Home size={26} strokeWidth={3} className="text-gray-900" />
       </Link>
       {/* Add Room Button (Moved from Navbar) */}
       <Link href="/add-room" aria-label="Add Room">
-        <PlusCircle size={24} strokeWidth={3} className="text-gray-900 hover:text-green-600 transition" />
+        <PlusCircle size={26} strokeWidth={3} className="text-gray-900 hover:text-green-600 transition" />
       </Link>
       {user ? (
         <Link href="/profile" className="p-2 rounded-lg hover:bg-gray-200 transition">
-          <UserIcon size={24} strokeWidth={3} className="text-gray-900" />
+          <UserIcon size={26} strokeWidth={3} className="text-gray-900" />
         </Link>
       ) : (
         <Link href="/auth/login" className="p-2 rounded-lg hover:bg-gray-200 transition">
-          <UserIcon size={24} strokeWidth={3} className="text-gray-900" />
+          <UserIcon size={26} strokeWidth={3} className="text-gray-900" />
         </Link>
       )}
     </footer>
