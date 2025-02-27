@@ -5,7 +5,6 @@ import { db } from "../../lib/firebaseClient";
 import { collection, addDoc } from "firebase/firestore";
 import { FaUser, FaPhone, FaEnvelope, FaHome, FaImage } from "react-icons/fa";
 
-// Define TypeScript interface
 interface RoomData {
   name: string;
   phone: string;
@@ -18,7 +17,7 @@ interface RoomData {
 }
 
 export default function AddRoom() {
-  const [formData, setFormData] = useState<RoomData>({
+  const initialState: RoomData = {
     name: "",
     phone: "",
     email: "",
@@ -27,9 +26,13 @@ export default function AddRoom() {
     price: undefined,
     roomType: "",
     image: "",
-  });
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const [formData, setFormData] = useState<RoomData>(initialState);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -43,18 +46,8 @@ export default function AddRoom() {
         ...data,
         createdAt: new Date(),
       });
-
       alert("Your listing is live!");
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        title: "",
-        location: "",
-        price: undefined,
-        roomType: "",
-        image: "",
-      });
+      setFormData(initialState);
     } catch (error) {
       console.error("Error adding listing:", error);
       alert("Something went wrong. Please try again.");
@@ -63,12 +56,32 @@ export default function AddRoom() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.email) {
+    const { name, phone, email } = formData;
+    if (!name || !phone || !email) {
       alert("Please fill in Name, Phone, and Email.");
       return;
     }
     addListing(formData);
   };
+
+  const inputField = (
+    name: keyof RoomData,
+    type: string,
+    placeholder: string,
+    Icon?: React.ElementType
+  ) => (
+    <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
+      {Icon && <Icon className="text-gray-500" />}
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={formData[name] || ""}
+        onChange={handleChange}
+        className="w-full outline-none text-gray-700"
+      />
+    </div>
+  );
 
   return (
     <div className="max-w-2xl mx-auto my-10 p-8 bg-white shadow-lg rounded-lg border border-gray-200">
@@ -80,80 +93,17 @@ export default function AddRoom() {
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        {/* Required Fields */}
-        <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-          <FaUser className="text-gray-500" />
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full outline-none text-gray-700"
-            required
-          />
-        </div>
-
-        <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-          <FaPhone className="text-gray-500" />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full outline-none text-gray-700"
-            required
-          />
-        </div>
-
-        <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-          <FaEnvelope className="text-gray-500" />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full outline-none text-gray-700"
-            required
-          />
-        </div>
-
-        {/* Optional Fields */}
-        <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-          <FaHome className="text-gray-500" />
-          <input
-            type="text"
-            name="title"
-            placeholder="Title (optional)"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full outline-none text-gray-700"
-          />
-        </div>
-
-        <input
-          type="text"
-          name="location"
-          placeholder="Location (optional)"
-          value={formData.location}
-          onChange={handleChange}
-          className="border p-3 rounded-lg focus:ring-2 ring-blue-500 outline-none text-gray-700"
-        />
-
-        <input
-          type="number"
-          name="price"
-          placeholder="Price per Month (₹) (optional)"
-          value={formData.price || ""}
-          onChange={handleChange}
-          className="border p-3 rounded-lg focus:ring-2 ring-blue-500 outline-none text-gray-700"
-        />
+        {inputField("name", "text", "Your Name", FaUser)}
+        {inputField("phone", "tel", "Phone Number", FaPhone)}
+        {inputField("email", "email", "Email", FaEnvelope)}
+        {inputField("title", "text", "Title (optional)", FaHome)}
+        {inputField("location", "text", "Location (optional)")} 
+        {inputField("price", "number", "Price per Month (₹) (optional)")} 
+        {inputField("image", "text", "Image URL (optional)", FaImage)}
 
         <select
           name="roomType"
-          value={formData.roomType}
+          value={formData.roomType || ""}
           onChange={handleChange}
           className="border p-3 rounded-lg focus:ring-2 ring-blue-500 outline-none text-gray-700"
         >
@@ -164,18 +114,6 @@ export default function AddRoom() {
           <option value="Studio">Studio</option>
           <option value="Penthouse">Penthouse</option>
         </select>
-
-        <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-          <FaImage className="text-gray-500" />
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL (optional)"
-            value={formData.image}
-            onChange={handleChange}
-            className="w-full outline-none text-gray-700"
-          />
-        </div>
 
         <button
           type="submit"
