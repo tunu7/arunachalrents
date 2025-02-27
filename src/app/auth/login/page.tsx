@@ -1,4 +1,3 @@
-// Login Page
 "use client";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -53,7 +52,7 @@ export default function LoginPage() {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </form>
         <p className="text-center mt-6 text-gray-600">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button
             onClick={() => router.push("/auth/register")}
             className="text-blue-600 hover:underline focus:outline-none"
