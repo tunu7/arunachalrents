@@ -9,6 +9,12 @@ interface SidebarProps {
   closeSidebar: () => void;
 }
 
+const menuItems = [
+  { name: "Home", href: "/", icon: <Home size={22} /> },
+  { name: "Listings", href: "/listings", icon: <List size={22} /> },
+  { name: "About Us", href: "/about", icon: <Info size={22} /> },
+];
+
 export default function Sidebar({ isOpen, closeSidebar }: SidebarProps) {
   return (
     <>
@@ -25,7 +31,7 @@ export default function Sidebar({ isOpen, closeSidebar }: SidebarProps) {
 
       {/* Sidebar */}
       <motion.div
-        className="fixed top-0 left-0 w-72 h-screen bg-white shadow-xl z-50 flex flex-col p-6"
+        className="fixed top-0 left-0 w-72 sm:w-64 h-screen bg-white shadow-xl z-50 flex flex-col p-6 overflow-y-auto"
         initial={{ x: "-100%" }}
         animate={{ x: isOpen ? "0%" : "-100%" }}
         transition={{ type: "spring", stiffness: 100, damping: 15 }}
@@ -39,37 +45,29 @@ export default function Sidebar({ isOpen, closeSidebar }: SidebarProps) {
         </button>
 
         {/* Sidebar Navigation */}
-        <nav className="flex-1 mt-10 flex flex-col gap-5">
-          <Link
-            href="/"
-            className="flex items-center gap-3 text-gray-700 text-lg hover:text-black transition"
-            onClick={closeSidebar}
-          >
-            <Home size={22} /> Home
-          </Link>
-          <Link
-            href="/listings"
-            className="flex items-center gap-3 text-gray-700 text-lg hover:text-black transition"
-            onClick={closeSidebar}
-          >
-            <List size={22} /> Listings
-          </Link>
-          <Link
-            href="/about"
-            className="flex items-center gap-3 text-gray-700 text-lg hover:text-black transition"
-            onClick={closeSidebar}
-          >
-            <Info size={22} /> About Us
-          </Link>
-        </nav>
+        <ul className="mt-14 flex flex-col gap-6 mb-10">
+          {menuItems.map((item, index) => (
+            <li key={index}>
+              <Link
+                href={item.href}
+                className="flex items-center gap-3 text-gray-700 text-lg hover:text-black transition px-2 py-2"
+                onClick={closeSidebar}
+              >
+                {item.icon} {item.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-        {/* Logout Button */}
-        <button
-          onClick={closeSidebar}
-          className="w-full flex items-center justify-center gap-3 bg-red-500 text-white text-lg font-medium px-4 py-3 rounded-lg hover:bg-red-600 transition"
-        >
-          <LogOut size={22} /> Logout
-        </button>
+        {/* Logout Button - Lowered Slightly */}
+        <div className="mt-auto pb-8">
+          <button
+            onClick={closeSidebar}
+            className="w-full flex items-center justify-center gap-3 bg-red-500 text-white text-lg font-medium px-4 py-3 rounded-lg hover:bg-red-600 transition"
+          >
+            <LogOut size={22} /> Logout
+          </button>
+        </div>
       </motion.div>
     </>
   );
