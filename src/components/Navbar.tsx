@@ -32,7 +32,7 @@ export default function Navbar() {
         </Link>
       </nav>
 
-      {/* Sidebar Component */}
+      {/* Sidebar with Overlay */}
       <Sidebar isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />
     </>
   );
