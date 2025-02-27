@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { db } from "../../lib/firebaseClient";
 import { collection, addDoc } from "firebase/firestore";
-import { FaUser, FaPhone, FaEnvelope, FaHome, FaImage } from "react-icons/fa";
 
 interface RoomData {
   name: string;
@@ -68,10 +67,10 @@ export default function AddRoom() {
     name: keyof RoomData,
     type: string,
     placeholder: string,
-    Icon?: React.ElementType
+    label?: string
   ) => (
-    <div className="flex items-center gap-2 border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-      {Icon && <Icon className="text-gray-500" />}
+    <div className="border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
+      {label && <span className="text-gray-500 mr-2">{label}:</span>}
       <input
         type={type}
         name={name}
@@ -93,13 +92,13 @@ export default function AddRoom() {
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        {inputField("name", "text", "Your Name", FaUser)}
-        {inputField("phone", "tel", "Phone Number", FaPhone)}
-        {inputField("email", "email", "Email", FaEnvelope)}
-        {inputField("title", "text", "Title (optional)", FaHome)}
-        {inputField("location", "text", "Location (optional)")} 
-        {inputField("price", "number", "Price per Month (₹) (optional)")} 
-        {inputField("image", "text", "Image URL (optional)", FaImage)}
+        {inputField("name", "text", "Your Name", "Name")}
+        {inputField("phone", "tel", "Phone Number", "Phone")}
+        {inputField("email", "email", "Email", "Email")}
+        {inputField("title", "text", "Title (optional)", "Title")}
+        {inputField("location", "text", "Location (optional)", "Location")}
+        {inputField("price", "number", "Price per Month (₹) (optional)", "Price")}
+        {inputField("image", "text", "Image URL (optional)", "Image")}
 
         <select
           name="roomType"
