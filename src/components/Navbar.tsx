@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, Search, PlusCircle } from "lucide-react";
+import { Menu, Search } from "lucide-react"; // Removed PlusCircle since it's not used
 import Sidebar from "./Sidebar";
 
 export default function Navbar() {
