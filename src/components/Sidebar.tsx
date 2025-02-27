@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 export default function Sidebar({ isOpen, closeSidebar }: { isOpen: boolean; closeSidebar: () => void }) {
-  const [user, setUser] = useState<User | null>(null); // Fixed the 'any' type
-  const [role, setRole] = useState<string | null>(null); // Store user role
+  const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
   const router = useRouter();
   const db = getFirestore();
 
@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, closeSidebar }: { isOpen: boolean; clo
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-          setRole(userSnap.data().role); // Assuming Firestore has { role: "admin" | "tenant" | "vendor" }
+          setRole(userSnap.data().role);
         }
       } else {
         setUser(null);
@@ -33,89 +33,83 @@ export default function Sidebar({ isOpen, closeSidebar }: { isOpen: boolean; clo
     });
 
     return () => unsubscribe();
-  }, [db]); // Added db as a dependency
+  }, [db]);
 
   const handleLogout = async () => {
     await signOut(auth);
     setUser(null);
     setRole(null);
     closeSidebar();
-    router.push("/login"); // Redirect to login after logout
+    router.push("/login");
   };
 
   return (
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity ${
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
         onClick={closeSidebar}
       ></div>
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 w-64 h-full bg-white text-black shadow-lg transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out p-6`}
+        className={`fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out p-6 flex flex-col justify-between`}
       >
-        {/* Close Button */}
-        <button
-          onClick={closeSidebar}
-          className="absolute top-4 right-4 text-black hover:text-red-600 transition"
-          aria-label="Close Sidebar"
-        >
-          <X size={24} />
-        </button>
+        {/* Header with Close Button */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-800">Arunachal Rents</h2>
+          <button onClick={closeSidebar} className="text-gray-500 hover:text-red-500 transition">
+            <X size={28} />
+          </button>
+        </div>
 
-        <h2 className="text-xl font-bold mb-6">Menu</h2>
-
-        {/* Sidebar Links */}
+        {/* Navigation Links */}
         <nav>
-          <ul className="flex flex-col gap-4">
+          <ul className="space-y-5">
             <li>
-              <Link href="/" className="text-black hover:text-gray-700 transition block" onClick={closeSidebar}>
+              <Link href="/" className="block text-gray-700 hover:text-gray-900 transition text-lg" onClick={closeSidebar}>
                 Home
               </Link>
             </li>
             <li>
-              <Link href="/listings" className="text-black hover:text-gray-700 transition block" onClick={closeSidebar}>
+              <Link href="/listings" className="block text-gray-700 hover:text-gray-900 transition text-lg" onClick={closeSidebar}>
                 Listings
               </Link>
             </li>
             <li>
-              <Link href="/about" className="text-black hover:text-gray-700 transition block" onClick={closeSidebar}>
+              <Link href="/about" className="block text-gray-700 hover:text-gray-900 transition text-lg" onClick={closeSidebar}>
                 About Us
               </Link>
             </li>
-            <li>
-              <Link href="/contact" className="text-black hover:text-gray-700 transition block" onClick={closeSidebar}>
-                Contact
-              </Link>
-            </li>
 
-            {/* Show Dashboard if User is Logged In */}
+            {/* User Dashboard - Dynamic Based on Role */}
             {user && role && (
               <li>
                 <Link
-                  href={`/dashboard/${role}`} // Dynamic path based on role
-                  className="text-blue-600 hover:text-blue-800 transition block"
+                  href={`/dashboard/${role}`}
+                  className="block text-blue-600 hover:text-blue-800 transition font-medium text-lg"
                   onClick={closeSidebar}
                 >
                   {role.charAt(0).toUpperCase() + role.slice(1)} Dashboard
                 </Link>
               </li>
             )}
-
-            {/* Show Logout if User is Logged In */}
-            {user && (
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="text-red-600 hover:text-red-800 transition block w-full text-left"
-                >
-                  Logout
-                </button>
-              </li>
-            )}
           </ul>
         </nav>
+
+        {/* Logout Button */}
+        {user && (
+          <button
+            onClick={handleLogout}
+            className="w-full text-red-600 hover:text-red-800 transition mt-8 text-lg text-left border-t pt-4"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </>
   );
