@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen mb-8 pb-8 bg-white text-black">
      {/* Hero Section */} <section className="w-full flex flex-col items-center text-center py-24 px-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold">
+          <h1 className="text-4xl md:text-6xl font-extrabold">
             Find rented rooms easy and fast
           </h1>
           <p className="mt-4 text-lg md:text-xl text-gray-400">
@@ -36,7 +36,7 @@ export default function Home() {
           { icon: "⭐", title: "Trusted by Locals", desc: "Rated 4.9/5" },
         ].map((feature, index) => (
           <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
-            <div className="text-4xl">{feature.icon}</div>
+            <div className="text-3xl">{feature.icon}</div>
             <h3 className="text-xl font-semibold mt-4">{feature.title}</h3>
             <p className="mt-2 text-gray-600">{feature.desc}</p>
           </div>
@@ -45,7 +45,7 @@ export default function Home() {
 
       {/* How It Works */}
       <section className="max-w-6xl mx-auto my-16 text-center">
-        <h2 className="text-3xl font-semibold">How It Works</h2>
+        <h2 className="text-2xl font-semibold">How It Works</h2>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             { icon: "🔍", title: "Search & Find", desc: "Choose from verified stays" },
@@ -53,7 +53,7 @@ export default function Home() {
             { icon: "🏡", title: "Move In", desc: "Easy & hassle-free" },
           ].map((step, index) => (
             <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition">
-              <div className="text-4xl">{step.icon}</div>
+              <div className="text-3xl">{step.icon}</div>
               <h3 className="text-xl font-semibold mt-4">{step.title}</h3>
               <p className="mt-2 text-gray-600">{step.desc}</p>
             </div>
@@ -64,7 +64,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="w-full bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold">What Our Clients Say</h2>
+          <h2 className="text-2xl font-semibold">What Our Clients Say</h2>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               { name: "Nabam", review: "Arunachal Rents made finding my perfect rental effortless and enjoyable." },
@@ -81,7 +81,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section className="w-full bg-gray-900 py-16 text-center">
-        <h2 className="text-3xl font-bold text-white">Your Perfect Stay Awaits.</h2>
+        <h2 className="text-2xl font-bold text-white">Your Perfect Stay Awaits.</h2>
         <p className="mt-4 text-lg text-blue-100">Find & book verified rooms in minutes.</p>
         <div className="mt-8">
           <Link href="/listings">
