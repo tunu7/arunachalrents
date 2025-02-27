@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, PlusCircle } from "lucide-react";
+import { Menu, Search, PlusCircle } from "lucide-react";
 import Sidebar from "./Sidebar";
 
 export default function Navbar() {
@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav className="p-3 bg-white shadow-md flex items-center justify-between">
+      <nav className="p-3 px-6 bg-white shadow-md flex items-center justify-between">
         {/* Sidebar Toggle Button */}
         <button
           onClick={() => setIsSidebarOpen(true)}
@@ -26,9 +26,9 @@ export default function Navbar() {
           ArunachalRents
         </Link>
 
-        {/* Add Room Button */}
-        <Link href="/add-room" aria-label="Add Room">
-          <PlusCircle size={28} className="text-gray-700 hover:text-green-600 transition" />
+        {/* Search Button (Moved from Footer) */}
+        <Link href="/search" aria-label="Search">
+          <Search size={28} className="text-gray-700 hover:text-blue-600 transition" />
         </Link>
       </nav>
 

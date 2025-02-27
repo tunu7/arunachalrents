@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen mb-8 pb-8 bg-white text-black">
-     {/* Hero Section */} <section className="w-full flex flex-col items-center text-center py-24 px-6">
+     {/* Hero Section */} <section className="w-full flex flex-col items-center text-center py-12 px-4">
           <h1 className="text-4xl md:text-6xl font-extrabold">
             Find rented rooms easy and fast
           </h1>
