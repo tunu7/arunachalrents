@@ -4,26 +4,28 @@ import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg
 
 export default function Home() {
   return (
-    <div className="bg-white mb-12 text-black">
+    <div className="bg-white -mt-3 mb-12 text-black">
       {/* Main Container */}
-      <div className="container mx-auto px-4">
-        {/* Hero Section */}
-        <section className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Arunachal Rents</h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-xl mb-8">
-            Secure, verified rentals. Save on fees. Live smart.
-          </p>
-          <div className="flex space-x-6">
-            <Link href="/listings">
-              <button className="px-8 py-3 bg-gray-200 text-black font-medium rounded-md hover:bg-gray-300 transition">
-                Search Rentals
-              </button>
-            </Link>
-            <Link href="/add-room">
-              <button className="px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-700 transition">
-                List Property
-              </button>
-            </Link>
+      <div className="container mx-auto px-1">
+        {/* Hero Section with reduced gap */}
+        <section className="w-full min-h-[83vh] flex items-center justify-center text-center mb-12">
+          <div className="max-w-3xl mx-auto px-4">
+            <h1 className="text-3xl md:text-6xl font-bold mb-4">Arunachal Rents</h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-xl mb-8">
+              Secure, verified rentals. Save on fees. Live smart.
+            </p>
+            <div className="flex space-x-6">
+              <Link href="/listings">
+                <button className="px-8 py-3 bg-gray-200 text-black font-medium rounded-md hover:bg-gray-300 transition">
+                  Search Rentals
+                </button>
+              </Link>
+              <Link href="/add-room">
+                <button className="px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-700 transition">
+                  List Property
+                </button>
+              </Link>
+            </div>
           </div>
         </section>
 

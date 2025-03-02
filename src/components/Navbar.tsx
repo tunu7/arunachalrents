@@ -11,7 +11,7 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav className="p-3 px-6 bg-white shadow-md flex items-center justify-between">
+      <nav className="p-2 px-6 bg-white shadow-md flex items-center justify-between">
         {/* Sidebar Toggle Button */}
         <button
           onClick={() => setIsSidebarOpen(true)}
