@@ -4,11 +4,11 @@ import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg
 
 export default function Home() {
   return (
-    <div className="bg-white -mt-3 mb-12 text-black">
+    <div className="bg-white mb-12 text-black">
       {/* Main Container */}
-      <div className="container mx-auto px-1">
+      <div className="container mx-auto px-4">
         {/* Hero Section with reduced gap */}
-        <section className="w-full min-h-[83vh] flex items-center justify-center text-center mb-12">
+        <section className="w-full min-h-[80vh] flex items-center justify-center text-center mb-12 -mt-3">
           <div className="max-w-3xl mx-auto px-4">
             <h1 className="text-3xl md:text-6xl font-bold mb-4">Arunachal Rents</h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-xl mb-8">
@@ -46,11 +46,11 @@ export default function Home() {
             </div>
             <div className="p-4">
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Verified Tenants</h3>
-              <p className="text-gray-600">Secure & hassle-free.</p>
+              <p className="text-gray-600">Secure &amp; hassle-free.</p>
             </div>
             <div className="p-4">
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Listings</h3>
-              <p className="text-gray-600">Fast & responsive.</p>
+              <p className="text-gray-600">Fast &amp; responsive.</p>
             </div>
           </div>
         </section>
@@ -69,7 +69,7 @@ export default function Home() {
             </div>
             <div className="p-4 text-center">
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Book</h3>
-              <p className="text-gray-600">Connect & move in.</p>
+              <p className="text-gray-600">Connect &amp; move in.</p>
             </div>
           </div>
         </section>
@@ -80,13 +80,13 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="p-6 bg-white rounded-lg shadow">
               <p className="text-gray-600 italic mb-4">
-                "Simple, secure, and affordable. A game-changer for rentals."
+                &quot;Simple, secure, and affordable. A game-changer for rentals.&quot;
               </p>
               <p className="text-gray-800 font-semibold">- Anjali</p>
             </div>
             <div className="p-6 bg-white rounded-lg shadow">
               <p className="text-gray-600 italic mb-4">
-                "Saved on fees and found my perfect rental effortlessly."
+                &quot;Saved on fees and found my perfect rental effortlessly.&quot;
               </p>
               <p className="text-gray-800 font-semibold">- Rahul</p>
             </div>
