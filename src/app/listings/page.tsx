@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../lib/firebaseClient";
 import { collection, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import Image from "next/image"; // Import Next.js Image component
+import Image from "next/image";
 
 // Define Listing Interface
 interface Listing {
@@ -49,7 +49,9 @@ export default function ListingPage() {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
+    // On mobile, the container takes full width with minimal horizontal padding;
+    // extra bottom padding (pb-24) added to prevent overlap with the footer.
+    <div className="w-full sm:max-w-5xl mx-auto px-2 py-6 pb-24">
       <h1 className="text-lg font-extrabold text-gray-900 mb-4 text-center">
         Find Your Perfect Rental
       </h1>
@@ -76,9 +78,14 @@ export default function ListingPage() {
       )}
 
       {/* Listings Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* grid-cols-1 on mobile, grid-cols-3 on md screens for 3 rooms in a row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {listings.map((listing) => (
-          <div key={listing.id} className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105">
+          <div
+            key={listing.id}
+            onClick={() => router.push(`/listings/room/${listing.id}`)}
+            className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105 flex flex-col cursor-pointer"
+          >
             {/* Room Image - Using Next.js Image component */}
             {listing.imageUrl ? (
               <div className="relative w-full h-40">
@@ -96,18 +103,20 @@ export default function ListingPage() {
             )}
 
             {/* Room Details */}
-            <div className="p-4">
+            <div className="p-4 flex flex-col flex-1">
               <h2 className="text-sm font-bold text-gray-900 uppercase">{listing.roomType}</h2>
-
-              <p className="text-xs text-gray-600 flex items-center gap-1"> {listing.location}</p>
-
+              <p className="text-xs text-gray-600 flex items-center gap-1">{listing.location}</p>
               <p className="text-lg font-bold text-blue-600 mt-1">₹{listing.price}/month</p>
-
+              {/* mt-auto pushes the button to the bottom */}
               <button
-                onClick={() => router.push(`/listings/room/${listing.id}`)}
-                className="mt-3 bg-blue-600 text-white text-xs px-4 py-2 rounded-lg hover:bg-blue-700 w-full transition-shadow shadow-md"
+                onClick={(e) => {
+                  // Prevent event bubbling so that clicking the button doesn't trigger the card's onClick again
+                  e.stopPropagation();
+                  router.push(`/listings/room/${listing.id}`);
+                }}
+                className="mt-auto bg-blue-600 text-white text-xs px-4 py-2 rounded-lg hover:bg-blue-700 w-full transition-shadow shadow-md"
               >
-                View Details
+                visit
               </button>
             </div>
           </div>
