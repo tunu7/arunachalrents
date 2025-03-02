@@ -4,45 +4,101 @@ import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white mb-14 text-black">
-      {/* Hero Section */}
-      <section className="w-full flex flex-col items-center text-center py-12 px-4">
-        <h1 className="text-3xl md:text-5xl font-bold">Find Your Perfect Rental</h1>
-        <p className="mt-3 text-md md:text-lg text-gray-500">Quick, safe, and affordable stays.</p>
-        <div className="mt-6 flex space-x-4">
-          <Link href="/listings">
-            <button className="px-6 py-3 bg-gray-200 text-black text-md font-medium rounded-md hover:bg-gray-300 transition">
-              Search Room
-            </button>
-          </Link>
-          <Link href="/add-room">
-            <button className="px-6 py-3 bg-black text-white text-md font-medium rounded-md hover:bg-gray-700 transition">
-              List Your Room
-            </button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="max-w-4xl mx-auto my-12 grid grid-cols-2 gap-6 text-center">
-        {["Verified Listings", "Affordable Prices", "Fast Booking", "Trusted by Locals"].map((feature, index) => (
-          <div key={index} className="p-4 rounded-lg shadow-md bg-white">
-            <p className="text-md font-semibold">{feature}</p>
+    <div className="bg-white mb-12 text-black">
+      {/* Main Container */}
+      <div className="container mx-auto px-4">
+        {/* Hero Section */}
+        <section className="w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Arunachal Rents</h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-xl mb-8">
+            Secure, verified rentals. Save on fees. Live smart.
+          </p>
+          <div className="flex space-x-6">
+            <Link href="/listings">
+              <button className="px-8 py-3 bg-gray-200 text-black font-medium rounded-md hover:bg-gray-300 transition">
+                Search Rentals
+              </button>
+            </Link>
+            <Link href="/add-room">
+              <button className="px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-700 transition">
+                List Property
+              </button>
+            </Link>
           </div>
-        ))}
-      </section>
+        </section>
 
-      {/* How It Works */}
-      <section className="max-w-4xl mx-auto my-12 text-center">
-        <h2 className="text-xl font-semibold">How It Works</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {["Search & Find", "Contact Owner", "Move In"].map((step, index) => (
-            <div key={index} className="p-4 rounded-lg shadow-md bg-white">
-              <p className="text-md font-medium">{step}</p>
+        {/* About Section */}
+        <section className="py-8 text-center border-t border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">About Us</h2>
+          <p className="text-gray-600 text-lg">
+            The first dedicated rental platform for Arunachal Pradesh. Verified listings, secure tenant checks, and low fees.
+          </p>
+        </section>
+
+        {/* Key Features Section */}
+        <section className="py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Low Fees</h3>
+              <p className="text-gray-600">Save up to 40%.</p>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Verified Tenants</h3>
+              <p className="text-gray-600">Secure & hassle-free.</p>
+            </div>
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Listings</h3>
+              <p className="text-gray-600">Fast & responsive.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section className="py-12">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-4 text-center">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Sign Up</h3>
+              <p className="text-gray-600">Register and verify your details.</p>
+            </div>
+            <div className="p-4 text-center">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Browse</h3>
+              <p className="text-gray-600">Explore verified rentals.</p>
+            </div>
+            <div className="p-4 text-center">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Book</h3>
+              <p className="text-gray-600">Connect & move in.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews Section */}
+        <section className="py-12 bg-gray-50">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Reviews</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="p-6 bg-white rounded-lg shadow">
+              <p className="text-gray-600 italic mb-4">
+                "Simple, secure, and affordable. A game-changer for rentals."
+              </p>
+              <p className="text-gray-800 font-semibold">- Anjali</p>
+            </div>
+            <div className="p-6 bg-white rounded-lg shadow">
+              <p className="text-gray-600 italic mb-4">
+                "Saved on fees and found my perfect rental effortlessly."
+              </p>
+              <p className="text-gray-800 font-semibold">- Rahul</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Impact Section */}
+        <section className="py-8 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Our Impact</h2>
+          <p className="text-gray-600 text-lg">
+            Making rentals affordable and boosting the local economy through digital innovation.
+          </p>
+        </section>
+      </div>
 
       {/* Footer */}
       <footer className="w-full bg-white py-6 mt-12 text-center text-gray-600 border-t">
