@@ -51,7 +51,7 @@ export default function ListingPage() {
   return (
     // On mobile, the container takes full width with minimal horizontal padding;
     // extra bottom padding (pb-24) added to prevent overlap with the footer.
-    <div className="w-full sm:max-w-5xl mx-auto px-2 py-6 pb-24">
+    <div className="w-full sm:max-w-4xl mx-auto px-2 py-6 pb-24">
       <h1 className="text-lg font-extrabold text-gray-900 mb-4 text-center">
         Find Your Perfect Rental
       </h1>

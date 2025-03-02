@@ -14,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("/dashboard");
+      router.push("/listings");
     } catch {
       setError("Invalid email or password");
     }
