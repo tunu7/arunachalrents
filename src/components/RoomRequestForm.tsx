@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../lib/firebaseClient"; // Adjust the path as needed
 import { FC, useState } from "react";
 
@@ -22,13 +22,13 @@ const RoomRequestForm: FC<RoomRequestFormProps> = ({ listingId, userId, terms, o
     e.preventDefault();
     setError(null);
     try {
-      await addDoc(collection(db, "visitRequests"), {
+      await addDoc(collection(db, "visit"), {
         listingId,
         requesterName,
         occupation,
         govtId,
         userId,
-        timestamp: new Date(),
+        createdAt: serverTimestamp(), // Server-generated timestamp
       });
       onSuccess("Request submitted successfully!");
       // Clear fields after submission
@@ -36,9 +36,13 @@ const RoomRequestForm: FC<RoomRequestFormProps> = ({ listingId, userId, terms, o
       setOccupation("");
       setGovtId("");
       onClose();
-    } catch (err) {
-      console.error("Error submitting request:", err);
-      setError("Failed to submit request.");
+    } catch (err: unknown) {
+      let errorMessage = "An unknown error occurred.";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      console.error("Error submitting request:", errorMessage);
+      setError("Failed to submit request: " + errorMessage);
     }
   };
 
