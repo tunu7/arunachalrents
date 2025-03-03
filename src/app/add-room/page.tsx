@@ -69,29 +69,29 @@ export default function AddRoom() {
     placeholder: string,
     label?: string
   ) => (
-    <div className="border p-3 rounded-lg focus-within:ring-2 ring-blue-500">
-      {label && <span className="text-gray-500 mr-2">{label}:</span>}
+    <div className="flex flex-col">
+      {label && <label className="text-gray-500 mb-1">{label}:</label>}
       <input
         type={type}
         name={name}
         placeholder={placeholder}
         value={formData[name] || ""}
         onChange={handleChange}
-        className="w-full outline-none text-gray-700"
+        className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
       />
     </div>
   );
 
   return (
-    <div className="max-w-2xl mx-auto my-10 p-8 bg-white shadow-lg rounded-lg border border-gray-200">
-      <h2 className="text-3xl font-semibold text-gray-900 text-center mb-4">
+    <div className="max-w-xl mx-auto my-4 p-4 pb-16">
+      <h2 className="text-2xl font-semibold text-gray-900 text-center mb-3">
         📍 List Your Property
       </h2>
-      <p className="text-md text-gray-600 text-center mb-6">
+      <p className="text-md text-gray-600 text-center mb-4">
         Fill out the details below to showcase your property for potential tenants.
       </p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         {inputField("name", "text", "Your Name", "Name")}
         {inputField("phone", "tel", "Phone Number", "Phone")}
         {inputField("email", "email", "Email", "Email")}
@@ -100,23 +100,28 @@ export default function AddRoom() {
         {inputField("price", "number", "Price per Month (₹) (optional)", "Price")}
         {inputField("image", "text", "Image URL (optional)", "Image")}
 
-        <select
-          name="roomType"
-          value={formData.roomType || ""}
-          onChange={handleChange}
-          className="border p-3 rounded-lg focus:ring-2 ring-blue-500 outline-none text-gray-700"
-        >
-          <option value="" disabled>Select Room Type (optional)</option>
-          <option value="1BHK">1BHK</option>
-          <option value="2BHK">2BHK</option>
-          <option value="3BHK">3BHK</option>
-          <option value="Studio">Studio</option>
-          <option value="Penthouse">Penthouse</option>
-        </select>
+        <div className="flex flex-col">
+          <label className="text-gray-500 mb-1">Room Type:</label>
+          <select
+            name="roomType"
+            value={formData.roomType || ""}
+            onChange={handleChange}
+            className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-700"
+          >
+            <option value="" disabled>
+              Select Room Type (optional)
+            </option>
+            <option value="1BHK">1BHK</option>
+            <option value="2BHK">2BHK</option>
+            <option value="3BHK">3BHK</option>
+            <option value="Studio">Studio</option>
+            <option value="Penthouse">Penthouse</option>
+          </select>
+        </div>
 
         <button
           type="submit"
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium py-3 rounded-lg hover:opacity-90 transition-all shadow-md"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium py-2 rounded-lg hover:opacity-90 transition-all shadow"
         >
           📢 Publish Listing
         </button>
