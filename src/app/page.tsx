@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="bg-white mb-12 text-black">
+    <div className="bg-white mb-2 text-black">
       {/* Main Container */}
       <div className="container mx-auto px-4">
         {/* Hero Section with reduced gap */}

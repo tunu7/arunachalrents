@@ -8,7 +8,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import Image from "next/image";
 import RoomRequestForm from "../../../../components/RoomRequestForm"; // Adjust the path as needed
 
-// Define Listing Interface (with an optional terms field)
 interface Listing {
   id: string;
   title: string;
@@ -33,28 +32,22 @@ export default function RoomDetail() {
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  // State for recommendations
   const [recommendations, setRecommendations] = useState<Listing[]>([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState<boolean>(false);
-
-  // Control for request form component
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Check user authentication
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
       if (authenticatedUser) {
         setUser(authenticatedUser);
       } else {
-        router.push("/auth/login"); // Redirect to login if not logged in
+        router.push("/auth/login");
       }
     });
     return () => unsubscribe();
   }, [router]);
 
-  // Fetch listing details
   useEffect(() => {
     if (!id) {
       setError("Invalid room ID.");
@@ -81,7 +74,6 @@ export default function RoomDetail() {
     fetchListing();
   }, [id]);
 
-  // Fetch recommendations based on roomType once listing is loaded
   useEffect(() => {
     if (listing) {
       const fetchRecommendations = async () => {
@@ -96,7 +88,6 @@ export default function RoomDetail() {
             id: doc.id,
             ...doc.data(),
           })) as Listing[];
-          // Exclude the current listing
           const filtered = recs.filter((rec) => rec.id !== listing.id);
           setRecommendations(filtered);
         } catch (err) {
@@ -113,14 +104,14 @@ export default function RoomDetail() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="max-w-4xl mx-auto mb-16 px-6 py-8 bg-white shadow-lg rounded-lg">
+    <div className="flex flex-col justify-center items-center min-h-screen max-w-4xl w-full mx-auto mb-2 px-6 py-8 bg-white shadow-lg rounded-lg">
       {/* Photo Section */}
-      <div className="mb-8">
+      <div className="mb-8 w-full">
         {listing?.photos && listing.photos.length > 0 ? (
           <div className="grid grid-cols-2 gap-4">
             {listing.photos.map((photo, index) => (
               <div key={index} className="relative w-full h-40">
-                <Image 
+                <Image
                   src={photo}
                   alt={`Room photo ${index + 1}`}
                   fill
@@ -137,7 +128,7 @@ export default function RoomDetail() {
       </div>
 
       {/* Room Details Section */}
-      <div className="mb-8 text-left">
+      <div className="mb-8 text-left w-full">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{listing?.roomType}</h2>
         <p className="text-gray-600 text-lg mb-1">{listing?.location}</p>
         <p className="text-lg font-bold text-blue-600 mb-4">₹{listing?.price}/month</p>
@@ -156,9 +147,9 @@ export default function RoomDetail() {
       </div>
 
       {/* Request a Visit Section */}
-      <div className="mb-8 text-left">
+      <div className="mb-8 text-left w-full">
         {!showRequestForm ? (
-          <button 
+          <button
             onClick={() => setShowRequestForm(true)}
             className="bg-blue-600 text-white px-4 py-3 rounded-lg w-full hover:bg-blue-700"
           >
@@ -177,9 +168,9 @@ export default function RoomDetail() {
       </div>
 
       {/* Recommended Rooms Section */}
-      <div className="mt-8 text-left">
+      <div className="mt-8 text-left w-full">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Recommended Rooms</h3>
-        {loading && <p className="text-center text-gray-500">Loading recommendations...</p>}
+        {loadingRecommendations && <p className="text-center text-gray-500">Loading recommendations...</p>}
         {!loadingRecommendations && recommendations.length === 0 && (
           <p className="text-center text-gray-600">No recommendations available.</p>
         )}

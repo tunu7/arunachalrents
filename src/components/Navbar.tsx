@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, Search, ArrowLeft } from "lucide-react";
+import { Menu, ArrowLeft } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -40,8 +40,11 @@ export default function Navbar() {
         <Link href="/" className="text-2xl font-semibold text-gray-800 hover:text-gray-600 transition">
           ArunachalRents
         </Link>
-        <Link href="/search" aria-label="Search">
-          <Search size={26} className="text-gray-700 hover:text-blue-600 transition" />
+        <Link
+          href="/auth/login"
+          className="px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+        >
+          Login
         </Link>
       </nav>
       {isHome && (
