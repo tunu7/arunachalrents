@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { auth } from "../../lib/firebaseClient";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import Image from "next/image";
-import { useRouter } from "next/navigation";  // ✅ Use next/navigation instead of next/router
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -34,6 +34,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-50">
       <div className="max-w-md w-full bg-white shadow-lg p-6 rounded-lg border border-gray-200">
+        {/* Profile Info */}
         <div className="flex items-center space-x-4">
           {user.photoURL ? (
             <div className="relative w-16 h-16">
@@ -54,7 +55,21 @@ export default function ProfilePage() {
             <p className="text-gray-500">{user.email || "No email provided"}</p>
           </div>
         </div>
-        <div className="mt-6 space-y-2">
+
+        {/* Dashboard Options */}
+        <div className="mt-6 space-y-3">
+          <button
+            onClick={() => router.push("/dashboard/messages")}
+            className="w-full py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition"
+          >
+            View Messages
+          </button>
+          <button
+            onClick={() => router.push("/dashboard/change-password")}
+            className="w-full py-2 border border-green-600 text-green-600 rounded hover:bg-green-600 hover:text-white transition"
+          >
+            Change Password
+          </button>
           <button
             onClick={handleSignOut}
             className="w-full py-2 border border-red-600 text-red-600 rounded hover:bg-red-600 hover:text-white transition"
