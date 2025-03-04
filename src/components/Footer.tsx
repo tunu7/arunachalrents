@@ -12,14 +12,12 @@ export default function Footer() {
   const [user, setUser] = useState<User | null>(null);
   const currentYear = new Date().getFullYear();
 
-  // Social links data
   const socialLinks = [
     { href: "https://facebook.com/arunachalrents", icon: faFacebook },
     { href: "https://twitter.com/", icon: faTwitter },
     { href: "https://instagram.com/", icon: faInstagram }
   ];
 
-  // Quick links data
   const quickLinks = [
     { href: "/", text: "Home" },
     { href: "/about", text: "About" },
@@ -27,16 +25,9 @@ export default function Footer() {
     { href: "/faqs", text: "FAQs" }
   ];
 
-  // Legal links data
   const legalLinks = [
     { href: "/terms", text: "Terms" },
     { href: "/privacy", text: "Privacy" }
-  ];
-
-  // Mobile nav items
-  const navItems = [
-    { href: "/", icon: <Home size={26} strokeWidth={3} /> },
-    { href: "/add-room", icon: <PlusCircle size={26} strokeWidth={3} /> }
   ];
 
   useEffect(() => {
@@ -48,35 +39,46 @@ export default function Footer() {
 
   return (
     <>
-      {/* Mobile Navigation Footer */}
-      <div className="fixed bottom-0 w-full bg-white shadow-md p-1 flex justify-around items-center border-t md:hidden z-50">
-        {navItems.map((item, index) => (
+      {/* Navigation Bar (Mobile & Desktop) */}
+      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t z-50">
+        <div className="max-w-4xl mx-auto flex justify-between items-center px-6 py-3">
+          {/* Left Icon */}
           <Link 
-            key={`nav-${index}`} 
-            href={item.href} 
+            href="/" 
             className="p-3 rounded-lg hover:bg-gray-200 transition"
           >
-            {item.icon}
+            <Home size={26} strokeWidth={3} />
           </Link>
-        ))}
-        <Link 
-          href={user ? "/profile" : "/auth/login"} 
-          className="p-3 rounded-lg hover:bg-gray-200 transition"
-        >
-          <UserIcon size={26} strokeWidth={3} />
-        </Link>
+
+          {/* Center Icon */}
+          <Link 
+            href="/add-room" 
+            className="p-3 rounded-lg hover:bg-gray-200 transition"
+          >
+            <PlusCircle size={26} strokeWidth={3} />
+          </Link>
+
+          {/* Right Icon */}
+          <Link 
+            href={user ? "/profile" : "/auth/login"} 
+            className="p-3 rounded-lg hover:bg-gray-200 transition"
+          >
+            <UserIcon size={26} strokeWidth={3} />
+          </Link>
+        </div>
       </div>
 
-      {/* Add padding to the main content to ensure space below mobile nav */}
-      <div className="md:hidden h-16"></div>
+      {/* Add spacing to prevent overlap */}
+      <div className="h-16"></div>
 
-      {/* Informational Footer */}
-      <footer className="w-full bg-white border-t pb-8 md:pb-6 mt-8">
-        <div className="max-w-4xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Quick Links Section */}
+      {/* Footer Section */}
+      <footer className="w-full bg-white border-t mt-8">
+        <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+          
+          {/* Quick Links */}
           <div>
-            <h3 className="text-md font-semibold text-gray-800">Quick Links</h3>
-            <ul className="mt-2 space-y-1 text-sm">
+            <h3 className="text-lg font-semibold text-gray-800">Quick Links</h3>
+            <ul className="mt-2 space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={`quick-${index}`}>
                   <Link href={link.href} className="hover:text-blue-600 transition">
@@ -87,30 +89,28 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Follow Us Section */}
+          {/* Social Media */}
           <div>
-            <h3 className="text-md font-semibold text-gray-800">Follow Us</h3>
-            <ul className="mt-2 space-y-1 text-sm">
-              <div className="mt-2 flex justify-center md:justify-start space-x-4">
-                {socialLinks.map((link, index) => (
-                  <Link 
-                    key={`social-${index}`} 
-                    href={link.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-blue-600 transition"
-                  >
-                    <FontAwesomeIcon icon={link.icon} className="text-xl" />
-                  </Link>
-                ))}
-              </div>
-            </ul>
+            <h3 className="text-lg font-semibold text-gray-800">Follow Us</h3>
+            <div className="mt-2 flex justify-center md:justify-start space-x-6">
+              {socialLinks.map((link, index) => (
+                <Link 
+                  key={`social-${index}`} 
+                  href={link.href} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-blue-600 transition"
+                >
+                  <FontAwesomeIcon icon={link.icon} className="text-xl" />
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {/* Legal Section */}
+          {/* Legal */}
           <div>
-            <h3 className="text-md font-semibold text-gray-800">Legal</h3>
-            <ul className="mt-2 space-y-1 text-sm">
+            <h3 className="text-lg font-semibold text-gray-800">Legal</h3>
+            <ul className="mt-2 space-y-2">
               {legalLinks.map((link, index) => (
                 <li key={`legal-${index}`}>
                   <Link href={link.href} className="hover:text-blue-600 transition">
@@ -122,8 +122,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="mt-6 text-center text-xs text-gray-500">
+        {/* Copyright */}
+        <div className="text-center text-xs text-gray-500 mt-6 pb-4">
           <div>© {currentYear} Arunachal Rents. All rights reserved.</div>
           <div className="mt-2">
             Developed by{" "}
@@ -134,8 +134,8 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Add padding at the bottom on mobile to account for fixed nav */}
-      <div className="md:hidden h-16"></div>
+      {/* Bottom spacing for nav */}
+      <div className="h-16"></div>
     </>
   );
 }
