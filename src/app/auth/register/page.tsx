@@ -21,7 +21,7 @@ export default function RegisterPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       await setDoc(doc(db, "users", user.uid), { email, role });
-      router.push("/dashboard");
+      router.push("/auth/login");
     } catch (err) {
       setError("Failed to create an account. Try again.");
       console.error(err);
