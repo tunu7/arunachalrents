@@ -12,7 +12,7 @@ interface Listing {
   title: string;
   location: string;
   price: number;
-  imageUrl?: string; // Image stored as Cloudinary link
+  structImg?: string | null; // Cloudinary URL from Firestore
   roomType: string;
   amenities: string[];
 }
@@ -30,12 +30,20 @@ export default function ListingPage() {
 
     try {
       const querySnapshot = await getDocs(collection(db, "listings"));
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        imageUrl: doc.data().imageUrl || "", // Ensure Cloudinary link is retrieved
-      })) as Listing[];
-
+      const data = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        // If structImg is missing, empty, or only whitespace, set it to null
+        const imageUrl =
+          data.structImg && typeof data.structImg === "string" && data.structImg.trim()
+            ? data.structImg.trim()
+            : null;
+        console.log(`Listing ${doc.id} image URL:`, imageUrl); // Debug: Check URL in console
+        return {
+          id: doc.id,
+          ...data,
+          structImg: imageUrl,
+        } as Listing;
+      });
       setListings(data);
     } catch (err) {
       console.error("Error fetching listings:", err);
@@ -67,10 +75,16 @@ export default function ListingPage() {
         </div>
       )}
 
-      {loading && <p className="text-center text-gray-500 animate-pulse">Fetching available rooms...</p>}
+      {loading && (
+        <p className="text-center text-gray-500 animate-pulse">
+          Fetching available rooms...
+        </p>
+      )}
 
       {!loading && listings.length === 0 && (
-        <p className="text-center text-gray-600">No rooms available at the moment.</p>
+        <p className="text-center text-gray-600">
+          No rooms available at the moment.
+        </p>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -80,11 +94,11 @@ export default function ListingPage() {
             onClick={() => router.push(`/listings/room/${listing.id}`)}
             className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105 flex flex-col cursor-pointer"
           >
-            {listing.imageUrl ? (
+            {listing.structImg ? (
               <div className="relative w-full h-40">
-                <Image 
-                  src={listing.imageUrl}
-                  alt={listing.title}
+                <Image
+                  src={listing.structImg} // This URL comes from Firestore and is guaranteed not to be an empty string
+                  alt={`Image of ${listing.title}`}
                   fill
                   className="object-cover"
                 />
@@ -96,9 +110,15 @@ export default function ListingPage() {
             )}
 
             <div className="p-4 flex flex-col flex-1">
-              <h2 className="text-sm font-bold text-gray-900 uppercase">{listing.roomType}</h2>
-              <p className="text-xs text-gray-600 flex items-center gap-1">{listing.location}</p>
-              <p className="text-lg font-bold text-blue-600 mt-1">₹{listing.price}/month</p>
+              <h2 className="text-sm font-bold text-gray-900 uppercase">
+                {listing.roomType}
+              </h2>
+              <p className="text-xs text-gray-600 flex items-center gap-1">
+                {listing.location}
+              </p>
+              <p className="text-lg font-bold text-blue-600 mt-1">
+                ₹{listing.price}/month
+              </p>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -106,7 +126,7 @@ export default function ListingPage() {
                 }}
                 className="mt-auto bg-blue-600 text-white text-xs px-4 py-2 rounded-lg hover:bg-blue-700 w-full transition-shadow shadow-md"
               >
-                visit
+                Visit
               </button>
             </div>
           </div>
