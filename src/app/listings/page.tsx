@@ -12,7 +12,7 @@ interface Listing {
   title: string;
   location: string;
   price: number;
-  imageUrl?: string;
+  imageUrl?: string; // Image stored as Cloudinary link
   roomType: string;
   amenities: string[];
 }
@@ -33,6 +33,7 @@ export default function ListingPage() {
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
+        imageUrl: doc.data().imageUrl || "", // Ensure Cloudinary link is retrieved
       })) as Listing[];
 
       setListings(data);
@@ -49,14 +50,11 @@ export default function ListingPage() {
   }, []);
 
   return (
-    // On mobile, the container takes full width with minimal horizontal padding;
-    // extra bottom padding (pb-24) added to prevent overlap with the footer.
     <div className="w-full sm:max-w-4xl mx-auto px-2 py-6 pb-24">
       <h1 className="text-lg font-extrabold text-gray-900 mb-4 text-center">
         Find Your Perfect Rental
       </h1>
 
-      {/* Error Message with Retry */}
       {error && (
         <div className="text-center bg-red-100 text-red-700 p-3 rounded-md mb-4">
           <p>{error}</p>
@@ -69,16 +67,12 @@ export default function ListingPage() {
         </div>
       )}
 
-      {/* Loading State */}
       {loading && <p className="text-center text-gray-500 animate-pulse">Fetching available rooms...</p>}
 
-      {/* No Listings Found */}
       {!loading && listings.length === 0 && (
         <p className="text-center text-gray-600">No rooms available at the moment.</p>
       )}
 
-      {/* Listings Grid */}
-      {/* grid-cols-1 on mobile, grid-cols-3 on md screens for 3 rooms in a row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {listings.map((listing) => (
           <div
@@ -86,7 +80,6 @@ export default function ListingPage() {
             onClick={() => router.push(`/listings/room/${listing.id}`)}
             className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105 flex flex-col cursor-pointer"
           >
-            {/* Room Image - Using Next.js Image component */}
             {listing.imageUrl ? (
               <div className="relative w-full h-40">
                 <Image 
@@ -102,15 +95,12 @@ export default function ListingPage() {
               </div>
             )}
 
-            {/* Room Details */}
             <div className="p-4 flex flex-col flex-1">
               <h2 className="text-sm font-bold text-gray-900 uppercase">{listing.roomType}</h2>
               <p className="text-xs text-gray-600 flex items-center gap-1">{listing.location}</p>
               <p className="text-lg font-bold text-blue-600 mt-1">₹{listing.price}/month</p>
-              {/* mt-auto pushes the button to the bottom */}
               <button
                 onClick={(e) => {
-                  // Prevent event bubbling so that clicking the button doesn't trigger the card's onClick again
                   e.stopPropagation();
                   router.push(`/listings/room/${listing.id}`);
                 }}

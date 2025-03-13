@@ -5,8 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { db, auth } from "../../../../lib/firebaseClient";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
-import Image from "next/image";
-import RoomRequestForm from "../../../../components/RoomRequestForm"; // Adjust the path as needed
+import RoomPhotos from "../../components/RoomPhotos"; // New component for photos
+import RoomRequestForm from "../../../../components/RoomRequestForm"; // Request form component
 
 interface Listing {
   id: string;
@@ -37,6 +37,7 @@ export default function RoomDetail() {
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  // Handle authentication
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authenticatedUser) => {
       if (authenticatedUser) {
@@ -48,6 +49,7 @@ export default function RoomDetail() {
     return () => unsubscribe();
   }, [router]);
 
+  // Fetch room details
   useEffect(() => {
     if (!id) {
       setError("Invalid room ID.");
@@ -74,6 +76,7 @@ export default function RoomDetail() {
     fetchListing();
   }, [id]);
 
+  // Fetch recommendations
   useEffect(() => {
     if (listing) {
       const fetchRecommendations = async () => {
@@ -88,8 +91,7 @@ export default function RoomDetail() {
             id: doc.id,
             ...doc.data(),
           })) as Listing[];
-          const filtered = recs.filter((rec) => rec.id !== listing.id);
-          setRecommendations(filtered);
+          setRecommendations(recs.filter((rec) => rec.id !== listing.id));
         } catch (err) {
           console.error("Error fetching recommendations:", err);
         } finally {
@@ -105,27 +107,8 @@ export default function RoomDetail() {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen max-w-4xl w-full mx-auto mb-2 px-6 py-8 bg-white shadow-lg rounded-lg">
-      {/* Photo Section */}
-      <div className="mb-8 w-full">
-        {listing?.photos && listing.photos.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4">
-            {listing.photos.map((photo, index) => (
-              <div key={index} className="relative w-full h-40">
-                <Image
-                  src={photo}
-                  alt={`Room photo ${index + 1}`}
-                  fill
-                  className="object-cover rounded-lg"
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-lg">
-            <span className="text-gray-500">No Photos Available</span>
-          </div>
-        )}
-      </div>
+      {/* Room Photos Section */}
+      <RoomPhotos photos={listing?.photos} />
 
       {/* Room Details Section */}
       <div className="mb-8 text-left w-full">
@@ -134,7 +117,7 @@ export default function RoomDetail() {
         <p className="text-lg font-bold text-blue-600 mb-4">₹{listing?.price}/month</p>
         <div className="mt-2">
           <h3 className="text-xl font-semibold text-gray-800 mb-2">Amenities</h3>
-          {listing?.amenities && listing.amenities.length > 0 ? (
+          {listing?.amenities?.length ? (
             <ul className="list-disc ml-5 text-gray-700">
               {listing.amenities.map((amenity, index) => (
                 <li key={index}>{amenity}</li>
@@ -170,11 +153,11 @@ export default function RoomDetail() {
       {/* Recommended Rooms Section */}
       <div className="mt-8 text-left w-full">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Recommended Rooms</h3>
-        {loadingRecommendations && <p className="text-center text-gray-500">Loading recommendations...</p>}
-        {!loadingRecommendations && recommendations.length === 0 && (
+        {loadingRecommendations ? (
+          <p className="text-center text-gray-500">Loading recommendations...</p>
+        ) : recommendations.length === 0 ? (
           <p className="text-center text-gray-600">No recommendations available.</p>
-        )}
-        {!loadingRecommendations && recommendations.length > 0 && (
+        ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {recommendations.map((rec) => (
               <div
