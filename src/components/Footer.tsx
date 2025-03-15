@@ -5,7 +5,7 @@ import { Home, PlusCircle, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { auth } from "../lib/firebaseClient";  // Ensure this path is correct
 import { onAuthStateChanged, User } from "firebase/auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 export default function Footer() {
