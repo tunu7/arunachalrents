@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Home, PlusCircle, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { auth } from "../lib/firebaseClient";
+import { auth } from "../lib/firebaseClient";  // Ensure this path is correct
 import { onAuthStateChanged, User } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
@@ -74,52 +74,9 @@ export default function Footer() {
       {/* Footer Section */}
       <footer className="w-full bg-white border-t mt-8">
         <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">Quick Links</h3>
-            <ul className="mt-2 space-y-2">
-              {quickLinks.map((link, index) => (
-                <li key={`quick-${index}`}>
-                  <Link href={link.href} className="hover:text-blue-600 transition">
-                    {link.text}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Social Media */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">Follow Us</h3>
-            <div className="mt-2 flex justify-center md:justify-start space-x-6">
-              {socialLinks.map((link, index) => (
-                <Link 
-                  key={`social-${index}`} 
-                  href={link.href} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-blue-600 transition"
-                >
-                  <FontAwesomeIcon icon={link.icon} className="text-xl" />
-                </Link>
-              ))}
-            </div>
-          </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">Legal</h3>
-            <ul className="mt-2 space-y-2">
-              {legalLinks.map((link, index) => (
-                <li key={`legal-${index}`}>
-                  <Link href={link.href} className="hover:text-blue-600 transition">
-                    {link.text}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+         
         </div>
 
         {/* Copyright */}
