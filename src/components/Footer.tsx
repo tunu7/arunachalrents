@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { Home, PlusCircle, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { auth } from "../lib/firebaseClient";  // Ensure this path is correct
+import { auth } from "../lib/firebaseClient";
 import { onAuthStateChanged, User } from "firebase/auth";
-
 import { faFacebook, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
   const [user, setUser] = useState<User | null>(null);
@@ -42,27 +42,15 @@ export default function Footer() {
       {/* Navigation Bar (Mobile & Desktop) */}
       <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t z-50">
         <div className="max-w-4xl mx-auto flex justify-between items-center px-6 py-3">
-          {/* Left Icon */}
-          <Link 
-            href="/" 
-            className="p-3 rounded-lg hover:bg-gray-200 transition"
-          >
+          <Link href="/" className="p-3 rounded-lg hover:bg-gray-200 transition">
             <Home size={26} strokeWidth={3} />
           </Link>
 
-          {/* Center Icon */}
-          <Link 
-            href="/add-room" 
-            className="p-3 rounded-lg hover:bg-gray-200 transition"
-          >
+          <Link href="/add-room" className="p-3 rounded-lg hover:bg-gray-200 transition">
             <PlusCircle size={26} strokeWidth={3} />
           </Link>
 
-          {/* Right Icon */}
-          <Link 
-            href={user ? "/profile" : "/auth/login"} 
-            className="p-3 rounded-lg hover:bg-gray-200 transition"
-          >
+          <Link href={user ? "/profile" : "/auth/login"} className="p-3 rounded-lg hover:bg-gray-200 transition">
             <UserIcon size={26} strokeWidth={3} />
           </Link>
         </div>
@@ -75,8 +63,38 @@ export default function Footer() {
       <footer className="w-full bg-white border-t mt-8">
         <div className="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
 
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-bold mb-2">Quick Links</h4>
+            {quickLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="block text-blue-600 hover:underline">
+                {link.text}
+              </Link>
+            ))}
+          </div>
 
-         
+          {/* Legal Links */}
+          <div>
+            <h4 className="font-bold mb-2">Legal</h4>
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="block text-blue-600 hover:underline">
+                {link.text}
+              </Link>
+            ))}
+          </div>
+
+          {/* Social Links */}
+          <div>
+            <h4 className="font-bold mb-2">Follow Us</h4>
+            <div className="flex justify-center md:justify-start gap-4">
+              {socialLinks.map((link) => (
+                <Link key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={link.icon} className="text-2xl text-blue-500 hover:text-blue-700" />
+                </Link>
+              ))}
+            </div>
+          </div>
+
         </div>
 
         {/* Copyright */}
