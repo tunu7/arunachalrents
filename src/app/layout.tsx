@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./globals.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [hydrated, setHydrated] = useState(false);
-
+export default function RootLayout({ children }) {
   useEffect(() => {
-    setHydrated(true);
+    // Add the 'hydrated' class after the component mounts.
+    document.documentElement.classList.add("hydrated");
   }, []);
 
   return (
-    <html lang="en" className={hydrated ? "hydrated" : ""}>
+    <html lang="en">
       <body className="bg-gray-100 text-gray-900">
         <Navbar />
         <main className="p-4">{children}</main>
