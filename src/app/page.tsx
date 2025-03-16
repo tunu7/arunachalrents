@@ -1,117 +1,111 @@
+// src/app/page.tsx
 import Link from "next/link";
+import Container from "@/components/Container"; // ✅ Correct path for app router imports
 
 export default function Home() {
   return (
-    <div className="bg-white text-black">
-      {/* Main Container */}
-      <div className="container mx-auto px-4">
-        {/* 1. Hero Section with CTA Buttons for Tenants and Vendors */}
-        <section className="w-full min-h-[80vh] flex items-center justify-center text-center bg-gradient-to-b from-gray-50 to-white py-12">
-          <div className="max-w-4xl mx-auto px-4">
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-6">
-              FIND YOUR HOME
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-              Secure, verified rentals for tenants and landlords. Save on fees. Live smart.
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
-              <Link href="/listings">
-                <button className="px-8 py-3 bg-gray-200 text-black font-medium rounded-md hover:bg-gray-300 transition duration-300">
-                  Search Rentals (For Tenants)
-                </button>
-              </Link>
-              <Link href="/add-room">
-                <button className="px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-700 transition duration-300">
-                  List Property (For Vendors)
-                </button>
-              </Link>
-            </div>
+    <>
+      {/* Hero Section */}
+      <section className="w-full min-h-[84vh] flex items-center justify-center text-center text-black">
+        <Container>
+          <h1 className="text-2xl md:text-4xl font-extrabold mb-2 animate-fade-in">
+            FIND YOUR HOME
+          </h1>
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10">
+            Secure, verified rentals for tenants and landlords. Save on fees. Live smart.
+          </p>
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
+            <Link href="/listings">
+              <button className="px-8 py-3 bg-white text-blue-500 font-medium rounded-md hover:bg-blue-100 transition duration-300">
+                Search Rentals (For Tenants)
+              </button>
+            </Link>
+            <Link href="/add-room">
+              <button className="px-8 py-3 bg-blue-700 text-white font-medium rounded-md hover:bg-blue-600 transition duration-300">
+                List Property (For Vendors)
+              </button>
+            </Link>
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* 2. Why Us Section */}
-        <section className="py-16 bg-gray-50">
+      {/* Why Us Section */}
+      <section className="py-16 bg-white">
+        <Container>
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
             Why Choose Arunachal Rents?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
-            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                First in the Region
-              </h3>
-              <p className="text-gray-600">
-                The pioneering rental platform dedicated to Arunachal Pradesh, tailored to local needs.
-              </p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Secure & Verified
-              </h3>
-              <p className="text-gray-600">
-                Rigorous verification ensures trust for both tenants and landlords.
-              </p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Affordable
-              </h3>
-              <p className="text-gray-600">
-                Save up to 40% on fees compared to traditional methods.
-              </p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                User-Friendly
-              </h3>
-              <p className="text-gray-600">
-                Simple and fast process for listing and finding rentals.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "🌍 First in the Region", text: "Pioneering rental platform dedicated to Arunachal Pradesh." },
+              { title: "🔒 Secure & Verified", text: "Rigorous checks ensure safety for all users." },
+              { title: "💰 Affordable", text: "Save up to 40% on traditional fees." },
+              { title: "📱 User-Friendly", text: "Simple process for listing and finding rentals." },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="p-6 bg-blue-50 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+              >
+                <h3 className="text-xl font-semibold text-blue-700 mb-3">{item.title}</h3>
+                <p className="text-gray-600">{item.text}</p>
+              </div>
+            ))}
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* 3. Verification System Details */}
-        <section className="py-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
-            Our Revolutionary Verification System
+      {/* Tenant Verification System Section */}
+      <section className="py-16 bg-blue-50">
+        <Container>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-blue-700 mb-12">
+            Tenant Verification System
           </h2>
-          <div className="max-w-3xl mx-auto px-4 text-center">
-            <p className="text-gray-600 text-lg mb-6">
-              At Arunachal Rents, we’ve built a cutting-edge verification system to ensure safety and trust:
-            </p>
-            <ul className="text-gray-600 text-left max-w-xl mx-auto list-disc list-inside space-y-2">
-              <li>Identity verification using government-issued IDs.</li>
-              <li>Comprehensive background checks for tenants.</li>
-              <li>Property ownership validation for landlords.</li>
-              <li>Ongoing monitoring to maintain compliance.</li>
-            </ul>
-            <p className="text-gray-600 text-lg mt-6">
-              This system is revolutionary because it’s the first of its kind in Arunachal Pradesh, reducing fraud, enhancing safety, and setting a new standard for rental platforms in the region.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
+              <h3 className="text-xl font-semibold text-blue-700 mb-3">🔍 Verified Profiles</h3>
+              <p className="text-gray-600">
+                Our secure verification system ensures all tenants are properly identified and verified for your peace of mind.
+              </p>
+            </div>
+            <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
+              <h3 className="text-xl font-semibold text-blue-700 mb-3">✅ Easy Verification Process</h3>
+              <p className="text-gray-600">
+                Upload your valid ID, address proof, and employment details securely. Our team verifies your profile within 24 hours.
+              </p>
+            </div>
           </div>
-        </section>
+          <div className="text-center mt-10">
+            <Link href="/verify-tenant">
+              <button className="px-8 py-3 bg-blue-700 text-white font-medium rounded-md hover:bg-blue-600 transition duration-300">
+                Start Tenant Verification
+              </button>
+            </Link>
+          </div>
+        </Container>
+      </section>
 
-        {/* 4. Review Section */}
-        <section className="py-16 bg-gray-50">
+      {/* Review Section */}
+      <section className="py-16 bg-white">
+        <Container>
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
             What Our Users Say
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
-            <div className="p-6 bg-white rounded-lg shadow-md">
-              <p className="text-gray-600 italic mb-4">
-                &quot;Simple, secure, and affordable. A game-changer for rentals in Arunachal Pradesh.&quot;
-              </p>
-              <p className="text-gray-800 font-semibold">- Anjali</p>
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-md">
-              <p className="text-gray-600 italic mb-4">
-                &quot;Saved on fees and found my perfect rental effortlessly.&quot;
-              </p>
-              <p className="text-gray-800 font-semibold">- Rahul</p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {[
+              { quote: "Simple, secure, and affordable. A game-changer for rentals in Arunachal Pradesh.", author: "Anjali" },
+              { quote: "Saved on fees and found my perfect rental effortlessly.", author: "Rahul" },
+            ].map((review, index) => (
+              <div
+                key={index}
+                className="p-6 bg-blue-50 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+              >
+                <p className="text-gray-600 italic mb-4">"{review.quote}"</p>
+                <p className="text-gray-800 font-semibold">- {review.author}</p>
+              </div>
+            ))}
           </div>
-        </section>
-      </div>
-    </div>
+        </Container>
+      </section>
+    </>
   );
 }
