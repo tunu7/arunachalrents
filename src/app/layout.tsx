@@ -1,14 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import "./globals.css";
+import { useEffect, ReactNode } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import './globals.css';
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   useEffect(() => {
     // Add the 'hydrated' class after the component mounts.
-    document.documentElement.classList.add("hydrated");
+    document.documentElement.classList.add('hydrated');
   }, []);
 
   return (

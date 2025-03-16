@@ -99,13 +99,13 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
             <div className="p-6 bg-white rounded-lg shadow-md">
               <p className="text-gray-600 italic mb-4">
-                "Simple, secure, and affordable. A game-changer for rentals in Arunachal Pradesh."
+                &quot;Simple, secure, and affordable. A game-changer for rentals in Arunachal Pradesh.&quot;
               </p>
               <p className="text-gray-800 font-semibold">- Anjali</p>
             </div>
             <div className="p-6 bg-white rounded-lg shadow-md">
               <p className="text-gray-600 italic mb-4">
-                "Saved on fees and found my perfect rental effortlessly."
+                &quot;Saved on fees and found my perfect rental effortlessly.&quot;
               </p>
               <p className="text-gray-800 font-semibold">- Rahul</p>
             </div>
