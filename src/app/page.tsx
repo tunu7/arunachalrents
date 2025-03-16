@@ -99,7 +99,7 @@ export default function Home() {
                 key={index}
                 className="p-6 bg-blue-50 rounded-lg shadow-md hover:shadow-lg transition duration-300"
               >
-                <p className="text-gray-600 italic mb-4">"{review.quote}"</p>
+                <p className="text-gray-600 italic mb-4">&ldquo;{review.quote}&rdquo;</p>
                 <p className="text-gray-800 font-semibold">- {review.author}</p>
               </div>
             ))}
