@@ -67,7 +67,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-2">Quick Links</h4>
             {quickLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="block text-blue-600 hover:underline">
+              <Link key={link.href} href={link.href} className="block text-gray-800 hover:underline">
                 {link.text}
               </Link>
             ))}
@@ -77,7 +77,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-2">Legal</h4>
             {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="block text-blue-600 hover:underline">
+              <Link key={link.href} href={link.href} className="block text-gray-800 hover:underline">
                 {link.text}
               </Link>
             ))}
@@ -89,7 +89,7 @@ export default function Footer() {
             <div className="flex justify-center md:justify-start gap-4">
               {socialLinks.map((link) => (
                 <Link key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
-                  <FontAwesomeIcon icon={link.icon} className="text-2xl text-blue-500 hover:text-blue-700" />
+                  <FontAwesomeIcon icon={link.icon} className="text-2xl text-gray-900 hover:text-gray-400" />
                 </Link>
               ))}
             </div>
@@ -102,7 +102,7 @@ export default function Footer() {
           <div>© {currentYear} Arunachal Rents. All rights reserved.</div>
           <div className="mt-2">
             Developed by{" "}
-            <Link href="https://tunu.info" className="text-blue-600 hover:underline">
+            <Link href="https://tunu.info" className="text-gray-800 hover:underline">
               Tunu Doley
             </Link>
           </div>
