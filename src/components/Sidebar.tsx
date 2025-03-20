@@ -22,9 +22,9 @@ interface SidebarProps {
 
 const menuItems = [
   { name: "Home", href: "/", icon: <Home size={22} /> },
-  { name: "Add Room", href: "/rooms/add", icon: <PlusCircle size={22} /> },
+  { name: "Add Room", href: "/add-room", icon: <PlusCircle size={22} /> },
   { name: "Messages", href: "/messages", icon: <MessageSquare size={22} /> },
-  { name: "Account", href: "/account", icon: <User size={22} /> },
+  { name: "Account", href: "/profile", icon: <User size={22} /> },
   { name: "Help", href: "/help", icon: <HelpCircle size={22} /> },
   { name: "Contact Us", href: "/contact", icon: <Phone size={22} /> },
 ];
