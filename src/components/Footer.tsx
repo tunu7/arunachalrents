@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, PlusCircle, User as UserIcon } from "lucide-react";
+import { Home, PlusCircle, MessageSquare  } from "lucide-react";
 import { useEffect, useState } from "react";
 import { auth } from "../lib/firebaseClient";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -43,15 +43,15 @@ export default function Footer() {
       <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t z-50 md:hidden">
         <div className="max-w-3xl mx-auto flex justify-between items-center px-6 py-3">
           <Link href="/" className="p-3 rounded-lg hover:bg-gray-200 transition">
-            <Home size={26} strokeWidth={3} />
+            <Home size={26} strokeWidth={2} />
           </Link>
 
           <Link href="/add-room" className="p-3 rounded-lg hover:bg-gray-200 transition">
-            <PlusCircle size={26} strokeWidth={3} />
+            <PlusCircle size={26} strokeWidth={2} />
           </Link>
 
-          <Link href={user ? "/profile" : "/auth/login"} className="p-3 rounded-lg hover:bg-gray-200 transition">
-            <UserIcon size={26} strokeWidth={3} />
+          <Link href={user ? "/message" : "/auth/login"} className="p-3 rounded-lg hover:bg-gray-200 transition">
+            <MessageSquare size={26} strokeWidth={2} />
           </Link>
         </div>
       </div>

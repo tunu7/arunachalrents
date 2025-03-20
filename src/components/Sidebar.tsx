@@ -1,8 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
-import { X, Home, List, Info, LogOut } from "lucide-react";
+import { 
+  X, 
+  Home, 
+  PlusCircle, 
+  MessageSquare, 
+  User, 
+  HelpCircle, 
+  Phone, 
+  Moon, 
+  LogOut 
+} from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -11,35 +22,55 @@ interface SidebarProps {
 
 const menuItems = [
   { name: "Home", href: "/", icon: <Home size={22} /> },
-  { name: "Listings", href: "/listings", icon: <List size={22} /> },
-  { name: "About Us", href: "/about", icon: <Info size={22} /> },
+  { name: "Add Room", href: "/rooms/add", icon: <PlusCircle size={22} /> },
+  { name: "Messages", href: "/messages", icon: <MessageSquare size={22} /> },
+  { name: "Account", href: "/account", icon: <User size={22} /> },
+  { name: "Help", href: "/help", icon: <HelpCircle size={22} /> },
+  { name: "Contact Us", href: "/contact", icon: <Phone size={22} /> },
 ];
 
 export default function Sidebar({ isOpen, closeSidebar }: SidebarProps) {
-  return (
+  const [mounted, setMounted] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Ensure the portal is rendered only on the client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Toggle dark mode by toggling the "dark" class on document.documentElement
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return newMode;
+    });
+  };
+
+  const sidebarContent = (
     <>
-      {/* Overlay (Closes Sidebar on Click Outside) */}
+      {/* Overlay */}
       {isOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-[999] cursor-pointer"
           onClick={closeSidebar}
         />
       )}
 
-      {/* Sidebar */}
-      <motion.div
-        className="fixed top-0 left-0 w-72 sm:w-64 h-screen bg-white shadow-xl z-50 flex flex-col p-6 overflow-y-auto"
-        initial={{ x: "-100%" }}
-        animate={{ x: isOpen ? "0%" : "-100%" }}
-        transition={{ type: "spring", stiffness: 100, damping: 15 }}
+      {/* Sidebar sliding in from the right */}
+      <div
+        className={`fixed top-0 right-0 w-72 sm:w-64 h-screen bg-white shadow-xl z-[1000] flex flex-col p-6 pb-16 overflow-y-auto transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        {/* Close Button */}
+        {/* Close Button (positioned at the top-left inside the sidebar) */}
         <button
           onClick={closeSidebar}
-          className="absolute top-4 right-4 text-gray-700 hover:text-red-600 transition"
+          className="absolute top-4 left-4 text-gray-700 hover:text-red-600 transition"
         >
           <X size={26} />
         </button>
@@ -59,16 +90,25 @@ export default function Sidebar({ isOpen, closeSidebar }: SidebarProps) {
           ))}
         </ul>
 
-        {/* Logout Button - Lowered Slightly */}
-        <div className="mt-auto pb-8">
-          <button
-            onClick={closeSidebar}
-            className="w-full flex items-center justify-center gap-3 bg-red-500 text-white text-lg font-medium px-4 py-3 rounded-lg hover:bg-red-600 transition"
-          >
-            <LogOut size={22} /> Logout
-          </button>
-        </div>
-      </motion.div>
+        {/* Dark Mode Toggle */}
+        <button
+          onClick={toggleDarkMode}
+          className="w-full flex items-center gap-3 text-gray-700 text-lg hover:text-black transition px-2 py-2 mb-4"
+        >
+          <Moon size={22} /> {isDarkMode ? "Light Mode" : "Dark Mode"}
+        </button>
+
+        {/* Logout Button */}
+        <button
+          onClick={closeSidebar}
+          className="w-full flex items-center justify-center gap-3 bg-red-500 text-white text-lg font-medium px-4 py-3 rounded-lg hover:bg-red-600 transition"
+        >
+          <LogOut size={22} /> Logout
+        </button>
+      </div>
     </>
   );
+
+  if (!mounted) return null;
+  return createPortal(sidebarContent, document.body);
 }
