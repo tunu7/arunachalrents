@@ -74,80 +74,118 @@ export default function Navbar() {
             Arunachal Rents
           </Link>
           <div className="flex items-center space-x-6">
-            <Link
-              href="/"
-              className={`flex items-center gap-2 text-gray-700 hover:text-blue-600 transition ${pathname === "/" ? "font-bold" : ""}`}
-            >
-              <Home size={20} />
-              <span>Home</span>
-            </Link>
-            <Link
-              href="/add-room"
-              className="flex items-center gap-2 px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-            >
-              <PlusCircle size={20} />
-              <span>Add Room</span>
-            </Link>
-            <Link
-              href="/messages"
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
-            >
-              <MessageSquare size={20} />
-              <span>Messages</span>
-            </Link>
             {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setDropdownOpen((prev) => !prev)}
-                  className="flex items-center p-2 rounded-full hover:bg-gray-200 transition"
+              // When logged in
+              <div className="flex items-center space-x-6">
+                <Link
+                  href="/"
+                  className={`flex items-center gap-2 text-gray-700 hover:text-blue-600 transition ${
+                    pathname === "/" ? "font-bold" : ""
+                  }`}
                 >
-                  <User size={26} className="text-gray-700" />
-                </button>
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 z-50">
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Account
-                    </Link>
-                    <Link
-                      href="/help"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Help
-                    </Link>
-                    <Link
-                      href="/contact"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Contact Us
-                    </Link>
-                    <button
-                      onClick={toggleDarkMode}
-                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      {isDarkMode ? "Light Mode" : "Dark Mode"}
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
+                  <Home size={20} />
+                  <span>Home</span>
+                </Link>
+                <Link
+                  href="/rooms/add"
+                  className="flex items-center gap-2 px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+                >
+                  <PlusCircle size={20} />
+                  <span>Add Room</span>
+                </Link>
+                <Link
+                  href="/messages"
+                  className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+                >
+                  <MessageSquare size={20} />
+                  <span>Messages</span>
+                </Link>
+                <div className="relative">
+                  <button
+                    onClick={() => setDropdownOpen((prev) => !prev)}
+                    className="flex items-center p-2 rounded-full hover:bg-gray-200 transition"
+                  >
+                    <User size={26} className="text-gray-700" />
+                  </button>
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 z-50">
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Account
+                      </Link>
+                      <Link
+                        href="/help"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Help
+                      </Link>
+                      <Link
+                        href="/contact"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Contact Us
+                      </Link>
+                      <button
+                        onClick={toggleDarkMode}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        {isDarkMode ? "Light Mode" : "Dark Mode"}
+                      </button>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
-              <Link
-                href="/auth/login"
-                className="text-gray-700 hover:text-blue-600 transition"
-              >
-                Login
-              </Link>
+              // When not logged in: show Home, About Us, Login, Signup, Add Room
+              <>
+                <Link
+                  href="/"
+                  className={`flex items-center gap-2 text-gray-700 hover:text-blue-600 transition ${
+                    pathname === "/" ? "font-bold" : ""
+                  }`}
+                >
+              
+                  <span>Home</span>
+                </Link>
+                <Link
+                  href="/about"
+                  className={`flex items-center gap-2 text-gray-700 hover:text-blue-600 transition ${
+                    pathname === "/about" ? "font-bold" : ""
+                  }`}
+                >
+                  <span>About Us</span>
+                </Link>
+                <Link
+                  href="/auth/login"
+                  className="text-gray-700 hover:text-blue-600 transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="text-gray-700 hover:text-blue-600 transition"
+                >
+                  Signup
+                </Link>
+                <Link
+                  href="/rooms/add"
+                  className="flex items-center gap-2 px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+                >
+                  <PlusCircle size={20} />
+                  <span>Add Room</span>
+                </Link>
+              </>
             )}
           </div>
         </div>
