@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import Sidebar from "./Sidebar";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation"; // Removed useRouter import
 import { auth } from "../lib/firebaseClient";
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -12,7 +12,7 @@ export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
-  const router = useRouter();
+  // Removed: const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
