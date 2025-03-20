@@ -87,7 +87,7 @@ export default function Navbar() {
                   <span>Home</span>
                 </Link>
                 <Link
-                  href="/rooms/add"
+                  href="/add-room"
                   className="flex items-center gap-2 px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
                 >
                   <PlusCircle size={20} />
@@ -179,7 +179,7 @@ export default function Navbar() {
                   Signup
                 </Link>
                 <Link
-                  href="/rooms/add"
+                  href="/add-room"
                   className="flex items-center gap-2 px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
                 >
                   <PlusCircle size={20} />
