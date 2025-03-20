@@ -39,8 +39,8 @@ export default function Footer() {
 
   return (
     <>
-      {/* Navigation Bar (Mobile & Desktop) */}
-      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t z-50">
+      {/* Navigation Bar (Mobile only) */}
+      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md border-t z-50 md:hidden">
         <div className="max-w-3xl mx-auto flex justify-between items-center px-6 py-3">
           <Link href="/" className="p-3 rounded-lg hover:bg-gray-200 transition">
             <Home size={26} strokeWidth={3} />

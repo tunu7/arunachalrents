@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, ArrowLeft, Bell } from "lucide-react";
+import { Menu } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { usePathname, useRouter } from "next/navigation";
 import { auth } from "../lib/firebaseClient";
@@ -21,52 +21,70 @@ export default function Navbar() {
     return () => unsubscribe();
   }, []);
 
-  const isHome = pathname === "/";
-
   return (
     <>
       <nav className="sticky top-0 left-0 right-0 z-50 p-4 px-6 bg-white shadow-md flex items-center justify-between">
-        {/* Sidebar or Back Button */}
-        {isHome ? (
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="text-gray-700 hover:text-blue-600 transition"
-            aria-label="Open Menu"
-          >
-            <Menu size={26} />
-          </button>
-        ) : (
-          <button
-            onClick={() => router.back()}
-            className="text-gray-700 hover:text-blue-600 transition"
-            aria-label="Go Back"
-          >
-            <ArrowLeft size={26} />
-          </button>
-        )}
-
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-semibold text-gray-800 hover:text-gray-600 transition">
-          ArunachalRents
-        </Link>
-
-        {/* Login or Notification Icon */}
-        {user ? (
-          <Link href="/dashboard/notifications" aria-label="Notifications">
-            <Bell size={26} className="text-gray-700 hover:text-blue-600 transition" />
+        {/* Mobile: Logo on left, Hamburger on right */}
+        <div className="flex items-center w-full md:hidden">
+          <Link href="/" className="text-2xl font-semibold text-gray-800 hover:text-gray-600 transition">
+            Arunachal Rents
           </Link>
-        ) : (
-          <Link
-            href="/auth/login"
-            className="px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-          >
-            Login
+          <div className="ml-auto">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-gray-700 hover:text-blue-600 transition"
+              aria-label="Open Menu"
+            >
+              <Menu size={26} />
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: Logo on left, Navigation menu on right */}
+        <div className="hidden md:flex items-center justify-between w-full">
+          <Link href="/" className="text-2xl font-semibold text-gray-800 hover:text-gray-600 transition">
+            Arunachal Rents
           </Link>
-        )}
+          <div className="flex items-center space-x-6">
+            <Link
+              href="/"
+              className={`text-gray-700 hover:text-blue-600 transition ${pathname === "/" ? "font-bold" : ""}`}
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className={`text-gray-700 hover:text-blue-600 transition ${pathname === "/about" ? "font-bold" : ""}`}
+            >
+              About Us
+            </Link>
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Login
+              </Link>
+            )}
+            <Link
+              href="/rooms/add"
+              className="px-4 py-1 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+            >
+              Add Room
+            </Link>
+          </div>
+        </div>
       </nav>
 
-      {/* Sidebar */}
-      {isHome && <Sidebar isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />}
+      {/* Sidebar for mobile */}
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={() => setIsSidebarOpen(false)} />
     </>
   );
 }
