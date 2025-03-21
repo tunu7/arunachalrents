@@ -45,7 +45,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 left-0 right-0 z-50 p-4 px-6 bg-white shadow-md flex items-center justify-between">
+      <nav className="sticky top-0 left-0 right-0 z-50 p-3 px-6 bg-white shadow-md flex items-center justify-between">
         {/* Mobile: Logo on left, Hamburger on right */}
         <div className="flex items-center w-full md:hidden">
           <Link

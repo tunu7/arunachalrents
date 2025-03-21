@@ -110,7 +110,7 @@ export default function Footer() {
       </footer>
 
       {/* Bottom spacing for nav */}
-      <div className="h-16"></div>
+      <div className="h-20"></div>
     </>
   );
 }
