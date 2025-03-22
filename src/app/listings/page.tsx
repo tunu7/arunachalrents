@@ -95,14 +95,15 @@ export default function ListingPage() {
             className="bg-white rounded-md shadow-sm overflow-hidden transform transition hover:scale-105 flex flex-col cursor-pointer"
           >
             {listing.structImg ? (
-              <div className="relative w-full h-40">
-                <Image
-                  src={listing.structImg} // This URL comes from Firestore and is guaranteed not to be an empty string
-                  alt={`Image of ${listing.title}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+             <div className="relative w-full h-40 overflow-hidden">
+             <Image
+               src={listing.structImg}
+               alt={`Image of ${listing.title}`}
+               fill
+               className="object-cover object-top"
+             />
+           </div>
+           
             ) : (
               <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
                 No Image
